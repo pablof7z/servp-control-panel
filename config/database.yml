@@ -4,7 +4,6 @@ development:
   adapter: mysql
   database: servp_cp_dev
   username: root
-  password: ik90uj7zx
   pool: 5
   timeout: 5000
   socket: /var/run/mysqld/mysqld.sock

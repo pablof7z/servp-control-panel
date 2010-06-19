@@ -9,4 +9,4 @@ echo Database:
 
 #read database
 
-mysql -u $user -pik90uj7zx $database < countries.sql
+mysql -u $user $database < countries.sql
