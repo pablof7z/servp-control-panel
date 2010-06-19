@@ -1,0 +1,59 @@
+<% content_for :title do %>Register<% end %>
+
+<blockquote><p style="text-align: center;"><%= link_to 'Already a user? Login here instead.', login_path %></p></blockquote>
+
+<% form_for @user do |f| %>
+	<%= f.error_messages %>
+
+	<div style="text-align: center; padding-top: 20px;">
+	<table id="register" style="float: center;">
+		<tr>
+			<td class="keyword"><%= f.label :name %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.text_field :name %></td>
+		</tr>
+		
+		<% fields_for :account, @account do |f_a| %>
+
+		<tr>
+			<td class="keyword"><%= f_a.label :name, "Organization" %></td>
+		</tr>
+
+		<tr>
+			<td><%= f_a.text_field :name %></td>
+		</tr>
+
+		<% end %>
+
+		<tr>
+			<td class="keyword"><%= f.label :email %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.text_field :email %></td>
+		</tr>
+
+		<tr>
+			<td class="keyword"><%= f.label :password %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.password_field :password %></td>
+		</tr>
+
+		<tr>
+			<td class="keyword"><%= f.label :password_confirmation %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.password_field :password_confirmation %></td>
+		</tr>
+
+		<tr>
+			<td class="buttons"><%= f.submit "Sign Up" %></td>
+		</tr>
+	</table>
+</div>
+<% end %>

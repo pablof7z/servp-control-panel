@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  applied_coupon_id: 1
+  subscription_id: 1
+
+two:
+  applied_coupon_id: 1
+  subscription_id: 1

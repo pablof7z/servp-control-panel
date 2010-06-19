@@ -1,0 +1,12 @@
+#!/bin/bash
+
+user=root
+database=servp_cp_dev
+
+echo User:
+#read user
+echo Database:
+
+#read database
+
+mysql -u $user -pik90uj7zx $database < countries.sql

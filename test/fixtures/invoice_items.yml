@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  invoice_id: 1
+  description: MyString
+  quantity: 1
+  unit_price_cents: 1
+  unit_price: 
+  is_tax: false
+  subscription_period_id: 1
+  created_by_id: 1
+
+two:
+  invoice_id: 1
+  description: MyString
+  quantity: 1
+  unit_price_cents: 1
+  unit_price: 
+  is_tax: false
+  subscription_period_id: 1
+  created_by_id: 1

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  coupon_id: 1
+  account_id: 1
+  start: 2010-06-17 16:30:20
+  finish: 2010-06-17 16:30:20
+
+two:
+  coupon_id: 1
+  account_id: 1
+  start: 2010-06-17 16:30:20
+  finish: 2010-06-17 16:30:20

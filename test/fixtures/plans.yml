@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  service_id: 1
+  monthly_fee_cents: 1
+  fees_currency: MyString
+
+two:
+  name: MyString
+  service_id: 1
+  monthly_fee_cents: 1
+  fees_currency: MyString

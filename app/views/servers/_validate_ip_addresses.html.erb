@@ -1,0 +1,23 @@
+<% if @ips.size > 0 and @non_ips.size == 0 %>
+	<div class="typo-icon">A total of <%= @ips.size %> <%= if @ips.size == 1: "IP" else "IPs" end %> will be stored.</span>
+<% elsif @ips.size > 0 and @non_ips.size > 0 %>
+	<div class="typo-icon">A total of <%= @ips.size %> <%= if @ips.size == 1: "IP" else "IPs" end %> will be stored, but some of the information provided doesn't look like an IP address.</span>
+	<%=
+		s = ""
+		@non_ips.each {|a| s << "<li>#{a}</li>"}
+		s
+	%>
+<% elsif @ips.size == 0 and @non_ips.size == 0 %>
+<% elsif @ips.size == 0 and @non_ips.size > 0 %>
+	<div class="typo-icon">We weren't able to find any IP addresses. Make sure you write IP addresses and not domain names.</span>
+<% end %>
+
+<% if @other_servers.size > 0 %>
+	<div class="typo-icon"><p>The following IP address might be in conflict with another server, you might want to contact us about this.</p>
+	<%=
+		s = ""
+		@other_servers.each {|a| s << "<li>#{a}</li>"}
+		s
+	%>
+	</span>
+<% end %>

@@ -1,0 +1,31 @@
+<% content_for :title do %>Binary Canary: Link Account<% end %>
+
+<div style="min-height: 400px;">
+<div id="bc">
+
+<%= render :partial => 'accounts/bc_api' if @show_api_key %>
+
+</div>
+
+<div id="loading" style="text-align: center; display: none;">
+<img src="/images/loading.gif" />
+</div>
+</div>
+
+<script>
+function loading()
+{	
+	<%= visual_effect('fade', 'bc') %>
+	setTimeout('<%= visual_effect('appear', 'loading') %>', 1000);
+}
+
+function load_done()
+{
+	<%= visual_effect('fade', 'loading') %>
+	setTimeout('<%= visual_effect('appear', 'bc') %>', 1000);
+}
+</script>
+
+<script>
+<%= render :partial => 'accounts/bc_server_script' %>
+</script>

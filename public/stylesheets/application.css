@@ -1,0 +1,81 @@
+/*******************
+ * Ticket
+ *******************/
+table#ticket_table {
+	background-color: #ffffcc;
+	border-top: 1px solid #ecec9c;
+	border-left: 1px solid #ecec9c;
+	border-right: 1px solid #dcdc7a;
+	border-bottom: 1px solid #dcdc7a;
+	padding: 20px;
+	margin: 10px;
+}
+
+#ticket_table td.keyword {
+	font-size: 12px;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+
+#ticket_table td.value {
+	font-size: 12px;
+	font-family: sans-serif;
+	padding-right: 50px;
+}
+
+#ticket_table td.subject {
+	font-size: 22px;
+	font-weight: bold;
+	padding-bottom: 5px;
+	border-bottom: solid #ccccaa 1px;
+}
+
+#ticket_table td.text {
+	background-color: #ffffdd;
+	border: 1px solid #eeeeaa;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-family: Verdana;
+	font-size: 0.9em;
+}
+
+#tickets_list th {
+	text-align: left;
+	border-left: solid #eeeeee 1px;
+	border-right: solid #eeeeee 1px;
+}
+
+#tickets_list td {
+	border-left: solid #eeeeee 1px;
+	border-right: solid #eeeeee 1px;
+}
+
+div.ticket_update_title {
+	border-bottom: solid #cccccc 1px;
+	margin-top: 20px;
+	font-family: Verdana, sans-serif;
+	font-size: 0.9em;
+	color: #555555;
+}
+
+div.ticket_update_comment {
+	margin: 10px;
+	background-color: #ffffee;
+	border: solid #eeeecc 1px;
+	padding: 10px;
+	color: #444444;
+	font-family: Verdana, Trebuchet MS, Lucida Grande, Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+}
+
+div.ticket_update_update_done {
+	margin: 10px;
+	font-family: Verdana;
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+table#ticket_table li {
+	background-image: none;
+}
+

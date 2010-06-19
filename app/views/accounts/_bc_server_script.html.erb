@@ -1,0 +1,81 @@
+var global_serverid;
+var global_plan_included_cats;
+var global_plan_name;
+var global_pricea;
+var global_priceb;
+
+function select_this(sel_name)
+{
+	var pricea;
+	var priceb;
+	var included_cats;
+	
+	switch (sel_name)
+	{
+		case "Breeze": pricea = 495; priceb = 395; included_cats = 1; break;
+		case "Snap":   pricea = 995; priceb = 495; included_cats = 2; break;
+		case "Cruise": pricea = 1995; priceb = 495; included_cats = 2; break;
+		case "Aura":   pricea = 3495; priceb = 5995; included_cats = 2; break;
+		case "ER":     pricea = 5995; priceb = 1495; included_cats = 4; break;
+	}
+	
+	$('included_cats').value = included_cats;
+	$('monthly_fee').innerHTML = '$' + (pricea / 100);
+	global_plan_included_cats = Number(included_cats);
+	global_plan_name          = sel_name;
+	global_pricea             = Number(pricea);
+	global_priceb             = Number(priceb);
+	
+	$('save').disabled = false;
+}
+
+function update_price()
+{
+	var included_cats = $('included_cats');
+	
+	if (Number(included_cats.value) < global_plan_included_cats ||
+	    isNaN(Number(included_cats.value))) {
+		included_cats.value = global_plan_included_cats;
+	}
+	
+	$('monthly_fee').innerHTML = '$' + ((global_pricea + (global_priceb * (Number(included_cats.value) - global_plan_included_cats))) / 100);
+}
+
+function save_form()
+{
+	var plan_data;
+	
+	if (global_plan_included_cats != Number($('included_cats').value)) {
+		plan_data = global_plan_name + " with " + Number($('included_cats').value) + " CATs"
+	} else {
+		plan_data = global_plan_name
+	}
+	
+	$('selected_plan_'+global_serverid).innerHTML = plan_data;
+	$('plan_'+global_serverid).value = global_plan_name;
+	$('cats_'+global_serverid).value = $('included_cats').value;
+	<%= visual_effect('fade', 'select_plandiv') %>
+	<%= visual_effect('fade', 'shadow') %>
+}
+
+function select_plan(id, name, hostname)
+{
+	global_serverid = id;
+	
+	$('servername').innerHTML = name;
+	if ($('plan_'+global_serverid).value != "none") {
+		select_this($('plan_'+global_serverid).value);
+		$('included_cats').value = Number($('cats_'+global_serverid).value);
+		update_price();
+	}
+	
+	<%= visual_effect('appear', 'select_plandiv') %>
+	<%= visual_effect('appear', 'shadow') %>
+}
+
+function hide_shadow()
+{
+	<%= visual_effect('fade', 'select_plandiv') %>
+	<%= visual_effect('fade', 'shadow') %>
+}
+

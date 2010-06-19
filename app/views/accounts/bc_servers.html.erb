@@ -1,0 +1,183 @@
+<% content_for :title do %>Binary Canary: Link Account<% end %>
+
+<blockquote class="bg">
+This is the list of servers you have created on Binary Canary.
+Select the servers you want to protect and the plan to use for each server.</blockquote>
+
+<% form_tag :action => "bc_import" do %>
+<%# form_remote_tag :url => { :action => "bc_import" }, :update => "bc",
+  #                 :before => 'loading()',
+  #                 :complete => 'load_done()' do %>
+
+<%= hidden_field_tag :api_key, params[:api_key] %>
+
+<style>
+#pricea { border: solid #aaaaaa 4px; }
+#pricea thead tr td { border-bottom: solid #aaaaaa 2px; background-color: #226392; }
+#pricea thead tr th { width: 90px; border-bottom: solid #aaaaaa 2px; border-left: solid #5b8daf 1px; pading-top: 10px; background-color: #226392; color: #ffffff; font-family: Arial; font-size: 26px; font-weight: normal; line-height: 26px; }
+#pricea thead div.price { padding-top: 10px; color: #87daee; font-size: 28px; font-family: Georgia; }
+#pricea thead div.price .cents { color: #00ccff; font-size: 14px; position: relative; top: -10px}
+#pricea tfoot tr.first td { border-top: solid #aaaaaa 1px; }
+#pricea tfoot tr.last td { border-bottom: solid #aaaaaa 1px; }
+#pricea tr.odd { background-color: #eeeeee; }
+#pricea tr.even { background-color: #ffffff; }
+#pricea tbody td, #pricea tfoot td { font-family: Arial; font-size: 11px; color: #4d4d4d; text-align: right; }
+#pricea td.feature_title { text-align: right; }
+#pricea td.feature_plan_item { text-align: center; border-left: solid #aaaaaa 1px; font-size: 1.1em; }
+#pricea tr { height: 32px; }
+#pricea tfoot tr td.feature_title { font-weight: bold; }
+</style>
+
+
+<table id="register" cellspacing="0">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Monitors</th>
+			<th>Status</th>
+			<th>Selected Plan</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @servers.each do |data| %>
+		<% server = nil %>
+		<% @account.servers.each {|s| server = s if s.md_bc_server_id == data.server.serverid } %>
+		<tr class="<%= cycle('odd', 'even') %>">
+			<td><%= h data.server.servername %></td>
+			<td style="text-align: center;"><%= h data.server.totalmonitors %></td>
+			<td><%= h data.server.serverstatus %></td>
+			<%
+			if server != nil and
+			   server.bm_subscription != nil
+				text = "#{server.bm_subscription.plan.name}"
+				bm_subscription = BmSubscription.find_by_id(server.bm_subscription.bm_subscription.id)
+				if bm_subscription.bm_included_cats.to_i > server.bm_subscription.plan.bm_data.included_cats.to_i
+					text << " with #{bm_subscription.bm_included_cats} CATs"
+				end
+				
+				plan = server.bm_subscription.plan.name
+				cats = bm_subscription.bm_included_cats
+			else
+				text = "Select plan"
+				plan = "none"
+				cats = "0"
+			end
+			%>
+			<td style="text-align: center;"><%= link_to_function "<span id=\"selected_plan_#{h data.server.serverid}\">#{text}</span>", "select_plan('#{data.server.serverid}', '#{data.server.servername}', '#{data.server.hostname}')" %>
+			<%= hidden_field_tag "plan_#{data.server.serverid}", plan %>
+			<%= hidden_field_tag "cats_#{data.server.serverid}", cats %>
+			</td>
+		</tr>
+	<% end %>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td class="buttons" colspan="4">
+				<%= submit_tag "Next" %>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<p style="text-align: center; font-size: 10px;">API key <%= params[:api_key][0, 5] + "..." + params[:api_key][-5, 5] %><br /><%= link_to "Use a different API key", :action => 'bc', :reset_api_key => 'true' %></p>
+
+<% end %>
+
+<div id="select_plandiv" style="position: absolute; min-width: 600px; margin-left: -320px; z-index: 1000; top: -100px; left: 50%; right: 50%; background-color: white; border: solid #cccccc 1px; -moz-border-radius: 30px; padding: 20px; display: none;">
+<div>
+
+<h3>Select plan for <span id="servername"></span></h3>
+
+<table border="0" cellspacing="0" cellpadding="5" id="pricea">
+	<thead>
+		<tr>
+			<td></td>
+			<th><span class="tooltip">Breeze<span style="left: 50px;"><h1>Breeze</h1><p>An ideal plan for individuals, small bloggers and small startups on a tight budget.</p></span></span><div class="price">$4<span class="cents">.95</span></div></th>
+
+			<th><span class="tooltip">Snap<span><h1>Snap</h1><p>Who said emergency support staff had to be expensive? Snap gives your small blog or startup access to emergency staff in under an hour. Guaranteed.</p></span></span><div class="price">$9<span class="cents">.95</span></div></th>
+			<th><span class="tooltip">Cruise<span><h1>Cruise</h1><p>Cruise is an excellent option for small companies were downtime can have a detrimental effect over earnings and company image.</p></span></span><div class="price">$19<span class="cents">.95</span></div></th>
+			<th><span class="tooltip">Aura<span><h1>Aura</h1><p>Every minute of downtime counts, and you want to have your servers taken care off as soon as possible. This plan is for you.</p></span></span><div class="price">$34<span class="cents">.95</span></div></th>
+
+			<th><span class="tooltip tooltip-right">ER<span><h1>ER</h1><p>Downtime on your infrastructure is not acceptable, every minute your services are not available you lose earnings and you want downtime to be taken as serious a matter as it really is. This plan is for companies who can't afford to be down at all.</p><p>ER customers get two different engineers working at the same time on each CAT to make sure issues are fixed immediately.</p></span></span><div class="price">$59<span class="cents">.95</span></div></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="odd">
+			<td class="feature_title"><span class="tooltip tooltip-left">Guaranteed Response Time<span><h1>Guaranteed Response Time</h1><p>Absolute maximum allowed time that can go between an issue arising in your server and a Server Protectors' engineer to start working on it.</p><p>We will of course always try to get to the problem in your server as soon as possible, but the guaranteed response time provides you with certainty for a worst case scenario.</p><a href="/solutions/beyond-monitoring/overview">Read More</a></span></span></td>
+
+			<td class="feature_plan_item">90 minutes</td>
+			<td class="feature_plan_item">1 hour</td>
+			<td class="feature_plan_item">30 minutes</td>
+			<td class="feature_plan_item">10 minutes</td>
+			<td class="feature_plan_item">5 minutes</td>
+		</tr>
+
+		<tr class="even">
+			<td class="feature_title"><span class="tooltip tooltip-left">Included <acronym title="Critical Alert Task">CAT</acronym>s<span><h1>Included CATs</h1><p>Critical Alert Tasks provide the framework for Beyond Monitoring, they group alerts related to a service or server with a problem.</p><p>Each plan has a different number of included CATs, meaning, how many different issues (the number of services running on a server is irrelevant) will be handled.</p><a href="/solutions/beyond-monitoring/overview">Read More</a></span></span></td>
+			<td class="feature_plan_item">1</td>
+			<td class="feature_plan_item">2</td> 
+			<td class="feature_plan_item">2</td>
+
+			<td class="feature_plan_item">2</td>
+			<td class="feature_plan_item">4</td>
+		</tr>
+		<tr class="odd">
+			<td class="feature_title"><span class="tooltip tooltip-left">Additional <acronym title="Critical Alert Task">CAT</acronym> price<span><h1>Additional CAT price</h1><p>Want to load more CATs into your chosen plan? This is the price per additional CAT.</p><a href="/solutions/beyond-monitoring/overview">Read More</a></span></span></td> 
+			<td class="feature_plan_item">$3.95</td>
+
+			<td class="feature_plan_item">$4.95</td>
+			<td class="feature_plan_item">$4.95</td>
+			<td class="feature_plan_item">$7.95</td>
+			<td class="feature_plan_item"><span class="tooltip tooltip-right">$7.95 - $14.95<span><p>ER customers get two different engineers working at the same time on each CAT to make sure any issues is fixed immediately.</p><p>Optionally the one-man $7.95 rate can be requested.</p></span></td>
+		</tr>
+	</tbody>
+
+	<tfoot>
+		<tr class="even order">
+			<td class="feature_title"></td>
+			<td class="feature_plan_item"><a href="#" onclick="select_this('Breeze'); return false;"><img src="/images/selectthis.png" /></a></td>
+			<td class="feature_plan_item"><a href="#" onclick="select_this('Snap'); return false;"><img src="/images/selectthis.png" /></a></td>
+			<td class="feature_plan_item"><a href="#" onclick="select_this('Cruise'); return false;"><img src="/images/selectthis.png" /></a></td>
+			<td class="feature_plan_item"><a href="#" onclick="select_this('Aura'); return false;"><img src="/images/selectthis.png" /></a></td>
+			<td class="feature_plan_item"><a href="#" onclick="select_this('ER'); return false;"><img src="/images/selectthis.png" /></a></td>
+		</tr>
+	</tfoot>
+</table>
+
+<h4 style="text-align: center;">Options</h4>
+
+<table style="margin-left: auto; margin-right: auto;">
+<tr>
+<td>
+<table id="register">
+	<tr>
+		<td class="keyword">Included CATs&nbsp;</td>
+		<td class="value"><%= text_field_tag :included_cats, nil, { :size => '5', :onchange => 'update_price()' } %></td>
+	</tr>
+	<tr>
+		<td class="keyword">Setup fee:</td>
+		<td class="value1">$0.00</td>
+	</tr>
+	<tr>
+		<td class="keyword">Monthly fee:</td>
+		<td class="value1"><span id="monthly_fee">$0.00</span></td>
+	</tr>
+</table>
+</td>
+<td style="padding-left: 50px;">
+<div class="buttons" style="text-align: center; margin-top: 10px;">
+<p style="text-align: center;"><%= button_to_function 'Save', 'save_form()', :disabled => 'true', :id => 'save' %></p>
+<p style="text-align: center;"><%= button_to_function 'Cancel', 'hide_shadow()' %></p>
+</div>
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+
+<% if params[:ajax] != 'true' %>
+<script>
+<%= render :partial => 'accounts/bc_server_script' %>
+</script>
+<% end %>

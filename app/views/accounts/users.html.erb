@@ -1,0 +1,32 @@
+<% content_for :title do %>Users<% end %>
+
+<table id="list" style="border: solid #000000 0px;" cellspacing="0">
+	<thead>
+		<tr>
+			<th>User</th>
+			<th>Added by</th>
+			<th>Tickets?</th>
+			<th>Billing?</th>
+			<th>Users?</th>
+			<th>Reports?</th>
+			<th>Servers?</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @account.users.each do |user| %>
+		<% user_permission = UserPermission.find(:first, :conditions => { :user_id => user.id, :account_id => @account.id }) %>
+		<tr class="<%= cycle('odd', 'even') %>">
+			<td><%= h user.name %></td>
+			<td><%= h user_permission.set_by_user.name %></td>
+			<td><%= user_permission.tickets ? "Yes" : "No" %></td>
+			<td><%= user_permission.billing ? "Yes" : "No" %></td>
+			<td><%= user_permission.users ? "Yes" : "No" %></td>
+			<td><%= user_permission.reports ? "Yes" : "No" %></td>
+			<td><%= user_permission.servers ? "Yes" : "No" %></td>
+			<% if @account.allowed_for? @user, :users and user.id != @user.id %>
+			<td><%= link_to 'Remove Permission', { :action => 'remove_user', :user_id => user.mask, :account_id => @account.mask }, :confirm => "Are you sure you want to remove this user from the account?" %></td>
+			<% end %>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

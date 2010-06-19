@@ -1,0 +1,40 @@
+<script>
+function set_mechanism()
+{
+	m=$('contact_details_mechanism');
+	c=$('contact_details_newsletter');
+
+	if (m.value == 'Email' || m.value == 'AIM' || m.value == 'MSN' || m.value == 'Skype' || m.value == 'Facebook' || m.value == 'Twitter') {
+		c.checked = true;
+		c.disabled = false;
+	} else {
+		c.checked = false;
+		c.disabled = true;
+	}
+}
+</script>
+
+<% form_for :contact_details, @contact_detail, :url => { :action => action, :id => @contact_detail.mask } do |f| %>
+	<% f.error_messages %>
+
+	<table id="register">
+		<tr>
+		<td><%= f.select(:mechanism, ContactDetail::MECHANISMS) %></td>
+		<td>
+			<%= f.text_field :information %></td>
+		</tr>
+		<tr><td class="keyword"></td>
+		<td><%= f.check_box :enabled %> <%= f.label :enabled %></td></tr>
+		<tr><td class="keyword"></td>
+		<td><%= f.check_box :emergency %> <%= f.label :emergency, "Use in case of emergency" %></td></tr>
+		<tr><td class="keyword"></td>
+		<td><%= f.check_box :newsletter %> <%= f.label :newsletter, "Subscribed to our low traffic newsletter" %></td></tr>
+		<tr><td class="buttons" colspan="2"><%= f.submit "Save" %></td></tr>
+	</table>
+
+	<%= observe_field :contact_details_mechanism, :function => 'set_mechanism()' %>
+<% end %>
+
+<script>
+set_mechanism();
+</script>

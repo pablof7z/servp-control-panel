@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account_id: 1
+  name: MyString
+  private_notes: MyString
+  public_notes: MyString
+  enabled: false
+  description: MyString
+  hostname: MyString
+  mask: MyString
+  server_type: MyString
+
+two:
+  account_id: 1
+  name: MyString
+  private_notes: MyString
+  public_notes: MyString
+  enabled: false
+  description: MyString
+  hostname: MyString
+  mask: MyString
+  server_type: MyString

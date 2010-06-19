@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  bm_subscription_id: 1
+  keyword: MyString
+  value: MyString
+
+two:
+  bm_subscription_id: 1
+  keyword: MyString
+  value: MyString

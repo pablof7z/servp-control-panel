@@ -1,0 +1,25 @@
+<% @ticket_groups.each do |tickets| %>
+	<% if tickets[:tickets].size > 0 %>
+	<h3><%= tickets[:title] %></h3>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Ticket#</th>
+				<th>Subject</th>
+				<th>Created By</th>
+				<th>State</th>
+				<th>Account</th>
+				<th>Server</th>
+				<th>Age</th>
+				<th>Last Update</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render :partial => 'list', :locals => { :title => tickets[:title], :tickets => tickets[:tickets] } %>
+		</tbody>
+	</table>
+	<% end %>
+<% end %>
+
+<%= button_to "Create New Ticket", { :action => 'new' }, :method => 'get' %>

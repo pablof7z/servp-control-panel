@@ -1,0 +1,42 @@
+<% if @errors %>
+<div class="alert"><div class="typo-icon"><%= h @errors %></div></div>
+<% end %>
+
+<blockquote class="bg"><p><b>Using Binary Canary as your monitoring provider?</b></p>Great! Binary Canary provides a great API we use to pull the data from your account, just
+put here your API key provided by Binary Canary to automatically configure your Server Protectors account.</blockquote>
+
+
+<% form_remote_tag :url => { :action => "bc_servers", :ajax => 'true' }, :update => "bc",
+                   :before => 'loading()',
+                   :complete => 'load_done()' do %>
+
+<table id="register">
+	<tr>
+		<td class="keyword"><span class="case">API key:</span></td>
+		<td class="value"><%= text_field_tag :api_key, @api_key %></td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= submit_tag "Next" %></td>
+	</tr>
+</table>
+
+<% end %>
+
+<h2>Need help?</h2>
+
+<div class="bodytext">
+
+<p>Finding your API key can be daunting the first time, let us help you a little bit. Just follow this simple steps and
+you will have it rolling in no time!</p>
+
+<ul class="bullet-1">
+	<li>Login to your Binary Canary: <a href="https://binarycanary.com/en/login-to-website-monitoring.cfm" target="_blank">https://binarycanary.com/en/login-to-website-monitoring.cfm</a></li>
+	<li>Go to your "My Profile"<br />
+	    <img src="/images/binarycanarystep1.png" /></li>
+	<li>Click the API Key checkbox<br />
+	    <img src="/images/binarycanarystep2.png" /></li>
+	<li>Copy the API Key to the <a href="#" onclick="javascript:scroll(0, 0); return 0;">textbox above</a></li>
+	<li><b>We're done!</b></li>
+</ul>
+
+</div>

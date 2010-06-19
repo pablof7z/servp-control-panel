@@ -1,0 +1,255 @@
+<style>
+
+.auth_sl { color: #000000; font-weight: bold; text-decoration: none; font-size: 16px; }
+
+</style>
+
+<% form_for :server, @server, :url => { :action => action, :id => @server.mask } do |f| %>
+	<%= f.error_messages %>
+	
+	<h3>Basic Information</h3>
+
+	<table id="register" style="float: left;">
+		<tr>
+			<td class="keyword"><%= f.label :name %></td>
+			<td><%= f.text_field :name %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>A name to distinguish this server in your account.</td>
+		</tr>
+		<tr>
+			<td class="keyword"><%= f.label :hostname %></td>
+			<td><%= f.text_field :hostname %></td>
+		</tr>
+		<tr>
+			<td class="keyword"><%= f.label :server_type %></td>
+			<td><%= f.select(:server_type, Server::TYPES) %></td>
+		</tr>
+		<tr>
+			<td class="keyword" style="vertical-align: top;"><%= f.label :description %></td>
+			<td><%= f.text_area :description, :rows => 4 %></td>
+		</tr>
+		<tr valign="top">
+			<td class="keyword" style="vertical-align: top;"><%= f.label :hosting %></td>
+			<td>
+				<%= text_area_tag :hosting, @hosting, :rows => 5 %>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				Where is this server hosted?
+			</td>
+		</tr>
+		<tr>
+			<td class="buttons" colspan="2"><%= f.submit "Submit" %></td>
+		</tr>
+	</table>
+	
+	<div style="clear: both;"></div>
+	
+	<h3>IP Addresses</h3>
+	
+	<table id="register" style="float: left;">
+		<tr valign="top">
+			<td class="keyword"><label>IP Addresses:</label></td>
+			<td><%= text_area_tag 'ip_addresses', @ip_addresses, :rows => 5 %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><div id="ip_addresses_validation"></div></td>
+		</tr>
+	</table>
+	
+	<%= observe_field :ip_addresses,
+					  :url => { :action => 'validate_ip_addresses' },
+					  :with => "'server_id=#{@server[:mask]}&ip_addresses=' + encodeURIComponent(value)" %>
+	
+	<div style="clear: both;"></div>
+	
+	<h3>Authentication</h3>
+	
+	<table id="register" style="float: left;">
+		<tr>
+			<td>
+				<%= link_to_function 'FTP', 'set_apage("ftp")', :id => 'auth_link_ftp' %> |
+				<%= link_to_function 'SSH', 'set_apage("ssh")', :id => 'auth_link_ssh' %> |
+				<%= link_to_function 'Control Panel', 'set_apage("control_panel")', :id => 'auth_link_control_panel' %> |
+				<%= link_to_function 'Hosting', 'set_apage("hosting")', :id => 'auth_link_hosting' %> |
+				<%= link_to_function 'Others', 'set_apage("others")', :id => 'auth_link_others' %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="auth_div_ftp" style="display: none;">
+					<table>
+						<tr>
+							<td class="keyword">Hostname/IP:</td>
+							<td class="value"><%= text_field_tag 'ftp_hostname', @ftp[:hostname], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Username:</td>
+							<td class="value"><%= text_field_tag 'ftp_username', @ftp[:username], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Password:</td>
+							<td class="value"><%= password_field_tag 'ftp_password', @ftp[:password], :class => 'inputbox' %>
+						</tr>
+						<tr>
+								<td class="keyword">Comments:</td>
+								<td class="value"><%= text_area_tag 'ftp_comments', @ftp[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+						</tr>
+					</table>
+					
+					&nbsp;
+					
+					<center><%= button_to_function "Apply", 'set_apage("")' %></center>
+				</div>
+				<div id="auth_div_ssh" style="display: none;">
+					<table>
+						<tr>
+							<td class="keyword">Hostname/IP:</td>
+							<td class="value"><%= text_field_tag 'ssh_hostname', @ssh[:hostname], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Username:</td>
+							<td class="value"><%= text_field_tag 'ssh_username', @ssh[:username], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Password:</td>
+							<td class="value"><%= password_field_tag 'ssh_password', @ssh[:password], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td colspan="2" class="value_comment">
+								Prefer key-based authentication? So do we! <%= link_to 'Click here for information on setting it up' %>
+							</td>
+						</tr>
+						<tr>
+								<td class="keyword">Comments:</td>
+								<td class="value"><%= text_area_tag 'ssh_comments', @ssh[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+						</tr>
+					</table>
+					
+					&nbsp;
+					
+					<center><%= button_to_function "Apply", 'set_apage("")' %></center>
+				</div>
+				<div id="auth_div_control_panel" style="display: none;">
+					<p>Use this to provide information for control panels such as Plesk, Webmin, cPanel, Virtualmin, etc.</p>
+					
+					<table>
+						<tr>
+							<td class="keyword">URL:</td>
+							<td class="value"><%= text_field_tag 'control_panel_url', @control_panel[:url], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Username:</td>
+							<td class="value"><%= text_field_tag 'control_panel_username', @control_panel[:username], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Password:</td>
+							<td class="value"><%= password_field_tag 'control_panel_password', @control_panel[:password], :class => 'inputbox' %>
+						</tr>
+						<tr>
+								<td class="keyword">Comments:</td>
+								<td class="value"><%= text_area_tag 'control_panel_comments', @control_panel[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+						</tr>
+					</table>
+					
+					&nbsp;
+					
+					<center><%= button_to_function "Apply", 'set_apage("")' %></center>
+				</div>
+				<div id="auth_div_hosting" style="display: none;">
+					<table>
+						<tr>
+							<td class="keyword">URL:</td>
+							<td class="value"><%= text_field_tag 'hosting_url', @hosting[:url], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Username:</td>
+							<td class="value"><%= text_field_tag 'hosting_username', @hosting[:username], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="keyword">Password:</td>
+							<td class="value"><%= password_field_tag 'hosting_password', @hosting[:password], :class => 'inputbox' %>
+						</tr>
+						<tr>
+								<td class="keyword">Comments:</td>
+								<td class="value"><%= text_area_tag 'hosting_comments', @hosting[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+						</tr>
+					</table>
+					
+					&nbsp;
+					
+					<center><%= button_to_function "Apply", 'set_apage("")' %></center>
+				</div>
+				<div id="auth_div_others" style="display: none;">
+					<p>Have some other form of authentication?</p>
+					
+					<%= text_area_tag 'others_comments', @others[:comments], :rows => 5, :cols => 50, :class => 'transparent_area' %>
+					
+					<table>
+						<tr>
+							<td class="keyword">Password:</td>
+							<td class="value"><%= password_field_tag 'others_password', @others[:password], :class => 'inputbox' %>
+						</tr>
+						<tr>
+							<td class="value_comment" colspan="2">
+								Need to provide a password? You can use this password field.
+							</td>
+						</tr>
+					</table>
+					
+					&nbsp;
+					
+					<center><%= button_to_function "Apply", 'set_apage("")' %></center>
+				</div>
+			</td>
+		</tr>
+	</table>
+	
+	<h3>Beyond Monitoring</h3>
+	
+	<table id="register" style="float: left;">
+		<tr valign="top">
+			<td class="keyword"><label>IP Addresses:</label></td>
+			<td><%= text_area_tag 'ip_addresses', @ip_addresses, :rows => 5 %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><div id="ip_addresses_validation"></div></td>
+		</tr>
+	</table>
+<% end %>
+
+<script>
+var auth_sl = "";
+
+function set_apage(name)
+{
+	if (name == "" && auth_sl != "") {
+		$('auth_link_' + auth_sl).className = '';
+		$('auth_div_' + auth_sl).style.display = 'none';
+		auth_sl = "";
+	}
+	
+	l = $('auth_link_' + name);
+	if (auth_sl != "") { sl = $('auth_link_' + auth_sl); }
+	
+	l.className = 'auth_sl';
+	if (auth_sl != "") { sl.className = ''; }
+	
+	if (name != auth_sl) {
+		if (auth_sl != "") {
+			$('auth_div_' + auth_sl).style.display = 'none';
+		}
+		$('auth_div_' + name).style.display = 'inline';
+	}
+	
+	auth_sl = name;
+
+}
+</script>
+

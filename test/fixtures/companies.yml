@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  country: MyString
+  mask: MyString
+
+two:
+  name: MyString
+  country: MyString
+  mask: MyString

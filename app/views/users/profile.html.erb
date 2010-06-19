@@ -1,0 +1,33 @@
+<% content_for :title do %>User Profile<% end %>
+
+<% form_for :user, @user do |f| %>
+<table id="register">
+	<tr>
+		<td class="keyword"><%= f.label :name %></td>
+		<td><%= f.text_field :name %></td>
+	</tr>
+	<tr>
+		<td class="keyword"><%= f.label :username %></td>
+		<td><%= f.text_field :username %></td>
+	</tr>
+	<tr>
+		<td class="keyword"><%= f.label :email %></td>
+		<td><%= f.text_field :email %></td>
+	</tr>
+	<tr>
+		<td class="keyword"><%= f.label :country %></td>
+		<td><%= f.collection_select :country, Country.all, :name, :printable_name %></td>
+	</tr>
+	<tr valign="top">
+		<td class="keyword"><%= f.label :password %></td>
+		<td><%= f.password_field :password %><br /><span>Leave empty if you don't need to change it.</span></td>
+	</tr>
+	<tr>
+		<td class="keyword"><%= f.label :password_confirmation %></td>
+		<td><%= f.password_field :password_confirmation %></td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= f.submit "Submit" %></td>
+	</tr>
+</table>
+<% end %>

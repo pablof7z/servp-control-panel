@@ -1,0 +1,45 @@
+<% form_for :ticket, @ticket, :url => { :controller => 'tickets', :action => 'create' } do |f| %>
+
+<center><%= f.error_messages %></center>
+
+<table id="ticket_new">
+	<tr>
+		<td class="keyword">From:</td>
+		<td class="value"><%= @user.name %> &lt;<%= @user.email %>&gt;</td>
+	</tr>
+	<tr>
+		<td class="keyword">Subject:</td>
+		<td class="value"><%= f.text_field :subject %></td>
+	</tr>
+	<tr>
+		<td class="keyword">About:</td>
+		<%
+			options = ""
+			options << "<option value=\"account:#{@account[:mask]}\" style=\"font-weight: bold; background-color: #dddddd; font-size: 1.2em;\">Account: #{@account[:name]}</option>"
+			@account.servers.each do |server|
+				if params[:server] == server[:mask]; server_select = 'selected="selected"';
+				else server_select = nil; end
+				options << "<option value=\"server:#{server[:mask]}\" #{server_select}> &nbsp; &nbsp; &nbsp; Server: #{server[:name]}</option>"
+			end
+		%>
+		<td class="value"><%= select_tag :ticket_about, options %></td>
+	</tr>
+	<tr>
+		<td class="keyword">Priority</td>
+		<td class="value"><%= f.select :priority, Ticket::TICKET_PRIORITY %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.text_area :text, :cols => 90, :style => 'font-family: Trebuchet MS, Helvetica;' %></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="buttonbox">
+			<table align="center">
+				<tr>
+					<td><%= f.submit "Send", :class => 'button' %><% end %></td>
+					<td><%= button_to "Cancel", { :action => 'index' }, :class => 'button' %></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+

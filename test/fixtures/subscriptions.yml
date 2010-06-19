@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  server_id: 1
+  plan_id: 1
+  enabled: false
+  billing_id: 1
+  setup_fee_cents: 1
+  monthly_fee_cents: 1
+  setup_fee_currency: MyString
+  monthly_fee_currency: MyString
+
+two:
+  server_id: 1
+  plan_id: 1
+  enabled: false
+  billing_id: 1
+  setup_fee_cents: 1
+  monthly_fee_cents: 1
+  setup_fee_currency: MyString
+  monthly_fee_currency: MyString

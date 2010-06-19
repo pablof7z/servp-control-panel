@@ -1,0 +1,64 @@
+<table id="ticket_table">
+	<tr>
+		<td colspan="4" class="subject"><%= h @ticket.subject %></td>
+	</tr>
+	<tr>
+		<td colspan="4"><div class="line" /></td>
+	</tr>
+	<tr>
+		<td class="keyword">Opened by:</td>
+		<td class="value">
+			<% if @user == @ticket.created_by %>
+				You
+			<% else %>
+				<%= h @ticket.created_by.name %>
+			<% end %>
+		</td>
+		<td class="keyword">Age:</td>
+		<td class="value"><%= distance_of_time_in_words(@ticket.created_at, Time::now) %></td>
+	</tr>
+	<tr>
+		<td class="keyword">Status:</td>
+		<td class="value"><%= h @ticket.status %></td>
+		<td class="keyword">Assigned:</td>
+		<td class="value">
+			<% if @ticket.assigned_to == nil %>
+				Nobody
+			<% else %>
+				<%= h @ticket.assigned_to.name %>
+			<% end %>
+		</td>
+	</tr>
+	<tr valign="top">
+	<% if 0 %>
+	<%#
+		<td class="keyword">Server:</td>
+		<td class="value"><% if @ticket.server != nil %><%#= link_to h(@ticket.server.name), :controller => 'servers', :action => 'view', :id => @ticket.server.mask %><%# end %></td>
+		<% if @ticket.ticket_type == 'Beyond Monitoring' %>
+		<td class="keyword">SLA:</td>
+		<td class="value">
+			<% if @ticket.bm_data.expiration_status == 'EXPIRABLE' %>
+				Expires in <%= (@ticket.bm_data.expires_on - Time.now).to_i/60 %> minutes
+			<% elsif @ticket.bm_data.expiration_status == 'EXPIRED' %>
+				Expired <%= distance_of_time_in_words_to_now @ticket.bm_data.expires_on %> ago<br />
+				<b>You are entitled to a refund</b>
+			<% elsif @ticket.bm_data.expiration_status == '!EXPIRABLE' %>
+				Started to work on <%= (@ticket.bm_data.expires_on - @ticket.grabbed_on).to_i/60 %> minutes before expiration
+			<% end %>
+		</td>
+		<% end %>
+	<% end %>
+	</tr>
+	<tr>
+		<td colspan="4">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="4" class="text"><%= simple_format(h(@ticket.text)) %></td>
+	</tr>
+	<% if @ticket.priority != 'Normal' %>
+		<tr>
+			<td colspan="4"><br />This ticket has been marked with priority: <%= @ticket.priority %></td>
+		</tr>
+	<% end %>
+</table>
+

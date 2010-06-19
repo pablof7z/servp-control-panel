@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subscription_period_id: 1
+  total_cats: 1
+  used_cats: 1
+  additional_cat_price_cents: 1
+  guaranteed_response_time: 1
+
+two:
+  subscription_period_id: 1
+  total_cats: 1
+  used_cats: 1
+  additional_cat_price_cents: 1
+  guaranteed_response_time: 1

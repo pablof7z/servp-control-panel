@@ -1,0 +1,16 @@
+page.replace_html 'ip_addresses_validation', :partial => 'validate_ip_addresses'
+if @ips.size > 0 and @non_ips.size == 0
+	page['ip_addresses_validation'].className = 'approved'
+elsif @ips.size > 0 and @non_ips.size > 0
+	page['ip_addresses_validation'].className = 'attention'
+elsif @ips.size == 0 and @non_ips.size == 0
+	page['ip_addresses_validation'].className = ''
+else
+	page['ip_addresses_validation'].className = 'alert'
+end
+
+page.visual_effect :appear, 'ip_addresses_validation'
+
+page.delay(10) do
+	page.visual_effect :fade, 'ip_addresses_validation'
+end

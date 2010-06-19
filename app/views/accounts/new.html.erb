@@ -1,0 +1,17 @@
+<% content_for :title do %>Create New Account<% end %>
+
+<blockquote class="bg"><p>You can have multiple accounts associated to your user. Accounts represent different groups (such as different companies or different
+user groups within the same company). They can be used to reflect different requirements, user groups and billing preferences.</p></blockquote>
+
+<% form_for :account, @create_account, :url => { :action => 'create' } do |f| %>
+<%= f.error_messages %>
+<table id="register">
+	<tr>
+		<td class="keyword"><%= f.label :name %></td>
+		<td><%= f.text_field :name %></td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= f.submit "Submit" %></td>
+	</tr>
+</table>
+<% end %>

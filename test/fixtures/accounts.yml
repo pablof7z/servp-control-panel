@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  mask: MyString
+  created_by: 1
+  url: MyString
+  invoice_information: MyString
+
+two:
+  name: MyString
+  mask: MyString
+  created_by: 1
+  url: MyString
+  invoice_information: MyString

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  billing_id: 1
+  subscription: MyString
+  amount_cents: 1
+  amount_currency: MyString
+
+two:
+  billing_id: 1
+  subscription: MyString
+  amount_cents: 1
+  amount_currency: MyString

@@ -1,0 +1,21 @@
+<% content_for :title do %>Company Profile<% end %>
+
+<% form_for :account, @account, :url => { :action => 'update', :id => @account.mask } do |f| %>
+<table id="register">
+	<tr>
+		<td class="keyword"><%= f.label :name %></td>
+		<td><%= f.text_field :name %></td>
+	</tr>
+	<tr>
+		<td class="keyword" style="text-transform: uppercase;"><%= f.label "URL" %></td>
+		<td><%= f.text_field :url %></td>
+	</tr>
+	<tr>
+		<td class="keyword" style="vertical-align: top;"><%= f.label :invoice_information %></td>
+		<td><%= f.text_area :invoice_information, :rows => 5 %><p>Add any information here that should go in the top of invoices (normally the company address).</p></td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= f.submit "Submit" %></td>
+	</tr>
+</table>
+<% end %>

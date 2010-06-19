@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  plan_id: 1
+  included_cats: 1
+  additional_cat_price_cents: 1
+  guaranteed_response_time: 1
+
+two:
+  plan_id: 1
+  included_cats: 1
+  additional_cat_price_cents: 1
+  guaranteed_response_time: 1

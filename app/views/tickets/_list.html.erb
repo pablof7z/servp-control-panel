@@ -1,0 +1,15 @@
+<% i = 0 %>
+<% if tickets %>
+	<% tickets.each do |ticket| %>
+		<tr class="<%= cycle('odd', 'even') %>">
+			<td><%= link_to ticket.mask, :action => 'view', :id => ticket.mask %></td>
+			<td><%= link_to h(ticket.subject), :action => 'view', :id => ticket.mask %></td>
+			<td><%= link_to h(ticket.from_line), :action => 'view', :id => ticket.mask %></td>
+			<td><%= ticket.status.titleize %></td>
+			<td><% if ticket.account %><%= h(ticket.account.name) %><% else %><i>None</i><% end %></td>
+			<td><% if ticket.server %><%= h(ticket.server.name) %><% else %><i>None</i><% end %></td>
+			<td><%= distance_of_time_in_words_to_now(ticket.created_at) %></td>
+			<td><%= last_update = ticket.last_update; "#{distance_of_time_in_words_to_now last_update[:time]} ago by #{last_update[:user].name}" %></td>
+		</tr>
+	<% end %>
+<% end %>

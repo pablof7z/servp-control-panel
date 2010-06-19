@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account_id: 1
+  subtotal_cents: 1
+  total_cents: 1
+  created_by_id: 1
+  recipient: MyString
+  from: MyString
+  mask: MyString
+  date: 2010-05-01 19:00:11
+  currency: MyString
+  exchange_rate: 1.5
+  payable: false
+  due_date: 2010-05-01 19:00:11
+  paid: 2010-05-01 19:00:11
+
+two:
+  account_id: 1
+  subtotal_cents: 1
+  total_cents: 1
+  created_by_id: 1
+  recipient: MyString
+  from: MyString
+  mask: MyString
+  date: 2010-05-01 19:00:11
+  currency: MyString
+  exchange_rate: 1.5
+  payable: false
+  due_date: 2010-05-01 19:00:11
+  paid: 2010-05-01 19:00:11

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  server_id: 1
+  keyword: MyString
+  value: MyString
+  verified: false
+
+two:
+  server_id: 1
+  keyword: MyString
+  value: MyString
+  verified: false

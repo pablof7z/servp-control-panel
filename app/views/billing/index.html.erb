@@ -1,0 +1,130 @@
+<% content_for :title do %>Pending Subscriptions<% end %>
+<% if @pending_subs.size >= 1 %>
+	<% form_for :billing, @billing, :url => { :action => 'pending_subs' } do |f| %>
+	<%= hidden_field_tag 'billing[account_id]', @account[:mask] %>
+
+	<table id="billing_subscriptions" cellspacing="0">
+		<thead>
+			<tr>
+				<th>Service</th>
+				<th>Plan</th>
+				<th>Setup Fee</th>
+				<th>Monthly Fee</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @pending_subs.each do |subscription| %>
+		<tr class="<%= cycle('odd', 'even') %>">
+			<td>
+				<div class="service_name"><%= subscription.plan.service.name %> service</div>
+				<div class="server_name"><%= h subscription.server.name %></div>
+			</td>
+			<td>
+				<div class="plan_name"><%= subscription.plan.name %></div>
+				<% if subscription.plan.service.name == SERVICE_BM %>
+				<% bm_subscription = BmSubscription.find_by_subscription_id(subscription.id) %>
+				<div class="plan_additional_data">CATs: <%= bm_subscription.bm_included_cats %></div>
+				<% end %>
+			</td>
+			<td class="price"><%= number_to_currency subscription.setup_fee.to_s %></td>
+			<td class="price"><%= number_to_currency subscription.monthly_fee.to_s %></td>
+			<td class="action"><%= link_to image_tag('remove_item.png'), { :action => 'remove_item', :id => subscription[:id] } %></td>
+		</tr>
+		<% end %>
+		</tbody>
+		<tfoot>
+			<tr class="<%= cycle('odd', 'even') %>">
+				<td></td>
+				<td>Total:</td>
+				<td class="price"><%= number_to_currency @pending_subs_prices_setup_fees.to_s %></td>
+				<td class="price"><%= number_to_currency @pending_subs_prices_monthly_fee.to_s %></td>
+				<td>&nbsp;</td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<% if false %>
+	<div id="method_selection">
+		<label><%= f.radio_button :source, 'paypal' %> Create a Paypal subscription</label>
+	</div>
+
+	<div style="clear: both;"></div>
+
+	<% end %>
+
+	<div class="buttons" style="padding-top: 10px;"><%= f.submit 'Next &raquo;' %></div>
+
+	<% end %>
+<% end %>
+
+<% if @active_subs.size > 0 %>
+<h3>Active Subscriptions</h3>
+
+	<table id="billing_subscriptions" cellspacing="0">
+		<thead>
+			<tr>
+				<th>Service</th>
+				<th>Plan</th>
+				<th>Method</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @active_subs.each do |subscription| %>
+		<tr class="<%= cycle('odd', 'even') %>">
+			<td>
+				<div class="service_name"><%= subscription.plan.service.name %> service</div>
+				<div class="server_name"><%= h subscription.server.name %></div>
+			</td>
+			<td>
+				<div class="plan_name"><%= subscription.plan.name %></div>
+				<% if subscription.plan.service.name == SERVICE_BM %>
+				<div class="plan_additional_data">CATs: <%= subscription.bm_subscription.included_cats %></div>
+				<% end %>
+			</td>
+			<td class="price"><%= subscription.billing.source.capitalize %></td>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
+
+<% end %>
+
+<% if false %>
+<% if @invoices.size > 0 %>
+
+<fieldset>
+	<legend>Invoices</legend>
+	
+	
+	<table id="pricing_table" cellspacing="0">
+		<% @invoices.each do |invoice| %>
+		<tr class="<%= cycle('odd', 'even') %>" valign="top">
+			<td>
+				<span class="">
+					<%= link_to invoice.description, :action => 'invoice', :id => invoice.mask %>
+					<% if invoice.payable and invoice.paid? == false %>
+						<% if invoice.past_due_date? %>
+							<b>(Overdue)</b>
+						<% else %>
+							<b>(Unpaid)</b><br />
+							<small>Due in <%= distance_of_time_in_words_to_now invoice.due_date %></small>
+						<% end %>
+					<% else %>
+						<br />
+						<small>Paid <%= distance_of_time_in_words_to_now invoice.paid %> ago</small>
+					<% end %>
+				</span>
+			</td>
+			<td>
+				#<%= invoice.mask %>
+			</td>
+			<td></td>
+			<td class="price"><%= number_to_currency invoice.total.to_s %></td>
+		</tr>
+		<% end %>
+	</table>
+</fieldset>
+
+<% end %>
+<% end %>

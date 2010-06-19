@@ -1,0 +1,51 @@
+<% content_for :title do %>Ticket <%= "##{@ticket.mask}" %><% end %>
+
+<%= render :partial => 'ticket_table' %>
+
+<% @ticket.ticket_updates.each do |ticket_update| %>
+	<div class="ticket_update_title">
+		<%= h ticket_update.user.name %>, <%= distance_of_time_in_words_to_now(ticket_update.created_at) %> ago
+	</div>
+	<div class="ticket_update_update_done">
+		<% if ticket_update.keyword == 'status' %>
+			<li style="list-style: square;">Ticket was <%= h(ticket_update.value) %>.</li>
+		<% end %>
+		<% if ticket_update.keyword == 'bmstatus' %>
+			<li style="list-style: square;">Issue appears to be <%= h(ticket_update.value) %>.</li>
+		<% end %>
+		<% if ticket_update.keyword == 'bmreport' %>
+			<li style="list-style: square;">Added a Beyond Monitoring report <%= link_to "##{ticket_update.value}", :action => 'report', :id => ticket_update.value %>.</li>
+		<% end %>
+	</div>
+	<% if ticket_update.comment.blank? == false %>
+		<div class="ticket_update_comment"><%= simple_format(h(ticket_update.comment)) %></div>
+	<% end %>
+<% end %>
+
+<h2>Add Comment</h2>
+
+<% form_for :ticket_update, @ticket_update, :url => { :action => 'update' } do |f| %>
+
+<%= f.error_messages %>
+
+<table>
+	<tr>
+		<td>
+			<%= hidden_field_tag :id, @ticket.mask %>
+			
+			<p><%= f.text_area :comment, :cols => 72, :rows => 10 %></p>
+			
+			<%= radio_button_tag :status, 'unchanged', true %> <label for="status_unchanged">Leave ticket unchanged</label><br />
+			<% if @ticket.status == 'Closed' %>
+				<%= radio_button_tag :status, 'open', false %> <label for="status_open">Reopen ticket</label><br />
+			<% else %>
+				<%= radio_button_tag :status, 'closed', false %> <label for="status_closed">Close ticket</label><br />
+			<% end %>
+		</td>
+	</tr>
+	<tr>
+		<td class="buttonbox"><%= f.submit 'Submit', :class => 'button' %></td>
+	</tr>
+</table>
+
+<% end %>

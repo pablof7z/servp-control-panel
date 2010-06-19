@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  mask: MyString
+  source: MyString
+  account_id: 1
+
+two:
+  mask: MyString
+  source: MyString
+  account_id: 1

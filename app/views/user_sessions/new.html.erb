@@ -1,0 +1,36 @@
+<% content_for :title do %>
+Login
+<% end %>
+
+<% form_for @user_session do |f| %>
+	<%= f.error_messages %>
+
+<div style="text-align: center; padding-top: 20px;">
+	<table id="login" style="float: center;">
+		<tr>
+			<td><%= f.label :username %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.text_field :username %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.label :password %></td>
+		</tr>
+
+		<tr>
+			<td><%= f.password_field :password %></td>
+		</tr>
+
+		<tr>
+			<td class="buttons"><%= f.submit "Log In" %></td>
+		</tr>
+	</table>
+
+	<div class="login-links">
+		<%= link_to 'Register', register_path %> | <a href="/user/forgot">Lost your password?</a>
+	</div>
+</div>
+
+<% end %>

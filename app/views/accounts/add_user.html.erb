@@ -1,0 +1,29 @@
+<% content_for :title do %>Add User<% end %>
+
+<% form_for :user_permission, @user_permission do |f| %>
+<%= hidden_field_tag :account_id, @account.mask %>
+<table id="register">
+	<tr>
+		<td class="keyword"><%= label_tag :username %></td>
+		<td><%= text_field_tag :username %></td>
+	</tr>
+	<tr>
+		<td class="keyword"><%= f.label :account %></td>
+		<td class="value1"><%= @account.name %></td>
+	</tr>
+	<tr>
+		<td class="keyword"><%= f.label :permissions %></td>
+		<td class="value1">
+			<p>Allow this user to access:</p>
+			<%= f.check_box :tickets %> <%= f.label :tickets %><br />
+			<%= f.check_box :billing %> <%= f.label :billing %><br />
+			<%= f.check_box :users %> <%= f.label :users %><br />
+			<%= f.check_box :reports %> <%= f.label :reports %><br />
+			<%= f.check_box :servers %> <%= f.label :servers %><br />
+		</td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= submit_tag "Submit" %></td>
+	</tr>
+</table>
+<% end %>

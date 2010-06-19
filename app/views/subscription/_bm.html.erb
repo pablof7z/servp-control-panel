@@ -1,0 +1,126 @@
+<% form_remote_for :server, @server, :url => { :controller => 'subscription', :action => 'bm' }.merge(url_params), :update => 'bm_container' do |f| %>
+<%= hidden_field_tag :dont_save, 'false' %>
+<table id="register">
+	<% if @plan %>
+	<%= hidden_field_tag :plan, @plan.name %>
+	<tr valign="top">
+		<td class="keyword1">Plan:</td>
+		<td class="value"><%= @plan[:name] %><br />
+		<%=
+		if params[:monitoring_provider] != nil
+			change_plan_url = "/cp/bm_enable/#{params[:monitoring_provider]}"
+		else
+			change_plan_url = "/cp/subscription/bm"
+		end
+		if url_params.size > 0
+			change_plan_url << "?"
+			url_params.each {|k,v| change_plan_url << "#{k}=#{v}&" }
+		end
+		
+		link_to "Change Plan", change_plan_url
+		%></td>
+	</tr>
+	<% else %>
+	<%= hidden_field_tag :dont_save, 'true' %>
+	<% url_params.each do |k,v| %>
+	<%= hidden_field_tag k, v %>
+	<% end %>
+	<tr valign="top">
+		<td class="keyword1">Plan:</td>
+		<td class="value">
+			<%= select_tag :plan, options_for_select(@bm_plans.map {|p| [ p.name, p.name ]}) %>
+		</td>
+	</tr>
+	<% end %>
+	<% if @bm_subscription != nil %>
+	<tr><td colspan="2" class="hr"></td></tr>
+	<tr>
+		<td colspan="2" style="font-weight: bold; font-size: 18px; color: #000000;">Server Information</td>
+	</tr>
+	<tr><td colspan="2"><%= f.error_messages %></td></tr>
+	<tr>
+		<td class="keyword1">Name:</td>
+		<td class="value"><%= f.text_field :name %></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="value_comment">Choose a name for this server that will help you identify it (e.g. example.com, web server, etc.)</td>
+	</tr>
+	<% if @user %>
+	<tr>
+		<td class="keyword1">Account Name:</td>
+		<td class="value"><%= @account.name %></td>
+	</tr>
+	<% end %>
+	<tr>
+		<td class="keyword1">Hostname:</td>
+		<td class="value"><%= f.text_field :hostname %></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="value_comment">Hostname or IP address (e.g. <i>server.example.com</i>)</td>
+	</tr>
+	<tr><td colspan="2" class="hr"></td></tr>
+	<tr>
+		<td colspan="2" style="font-weight: bold; font-size: 18px; color: #000000;">Plan Options</td>
+	</tr>
+	
+	<tr valign="top">
+		<td class="keyword1">Included <acronym title="Critical Alert Task">CAT</acronym>s</td>
+		<td class="value"><% fields_for :bm_subscription, @bm_subscription do |f| %>
+		<%= f.error_messages %>
+			<label><%= f.radio_button :bm_included_cats, @plan.bm_data.included_cats %><%= @plan.bm_data.included_cats %></label><br />
+			<% %w( 1 2 3 4 5 10 15 20 ).each do |v| %>
+			<% next if v.to_i <= @plan.bm_data.included_cats %>
+			<label><%= f.radio_button :bm_included_cats, v %> <%= v %> <span style="color: #777777;">(+<%= number_to_currency (((v.to_i - @plan.bm_data.included_cats) * @plan.bm_data.additional_cat_price_cents).to_f/100).to_f %>)</span></label><br />
+			<% end %>
+			<% end %>
+			<p>You can select additional <acronym title="Critical Alert Task">CAT</acronym>s that will be included with your default plan.<br />
+			<b>The more you include the more individual incidents that will be automatically handled.</b></p>
+		</td>
+	</tr>
+	<% end %>
+	<% if @bm_subscription != nil or params[:monitoring_provider] != nil %>
+	<tr valign="top">
+		<% if params[:monitoring_provider] == nil %>
+		<td class="keyword1">Monitoring Service Provider</td>
+		<td class="value">
+			<% fields_for :bm_subscription, @bm_subscription do | f| %>
+			<% BmSubscription::BM_SERVICE_PROVIDERS.map do |di, value| %>
+				<label><%= f.radio_button :service_provider, value %> <%= di %></label><br />
+			<% end %>
+			<% end %>
+		</td>
+		<% else %>
+	<tr><td colspan="2" class="hr"></td></tr>
+	<tr valign="top">
+		<td></td>
+		<td class="keyword1" style="padding-top: 10px; padding-bottom: 10px;">
+			<%= hidden_field_tag "bm_subscription[service_provider]", params[:monitoring_provider] %>
+			Monitoring powered by <%= image_tag "#{params[:monitoring_provider]}.png", :style => 'vertical-align: middle;' %>
+		</td>
+		<% end %>
+	</tr>
+	<% end %>
+	<% if @bm_subscription != nil %>
+	<tr><td colspan="2" class="hr"></td></tr>
+	<tr>
+		<td class="keyword1">Setup Fee:</td>
+		<td class="value"><label><%= number_to_currency @bm_subscription.subscription.setup_fee.to_s %> (<%= @plan.fees_currency %>)</label></td>
+	</tr>
+	<tr>
+		<td class="keyword1">Monthly Fee:</td>
+		<td class="value"><label><%= number_to_currency @bm_subscription.subscription.monthly_fee.to_s %> (<%= @plan.fees_currency %>)</label></td>
+	</tr>
+	<% end %>
+	<tr>
+		<td colspan="2" class="buttons">
+			<% if @bm_subscription != nil %>
+			<%= button_to_function 'Update', "$('dont_save').value = 'true'; form.submit();" %>
+			<% end %>
+			<%= f.submit 'Next &raquo;' %>
+		</td>
+	</tr>
+</table>
+<% end %>
+

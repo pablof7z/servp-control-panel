@@ -1,0 +1,56 @@
+<% content_for :title do %>Servers<% end %>
+
+<table id="list" cellspacing="0">
+	<thead>
+		<tr>
+		<th colspan="4">Server List</th>
+		</tr>
+	</thead>
+	<% if @account.servers.size == 0 %>
+	<tr class="<%= cycle('odd', 'even') %>">
+		<td colspan="4" style="text-align: center;">
+			Your account has no servers.
+			<%= link_to h("Create one?"), "/cp/subscriptions/bm/breeze" %>
+		</td>
+	</tr>
+	<% end %>
+	<% @account.servers.each do |server| %>
+	<tr class="<%= cycle('odd', 'even') %>">
+		<td><%= link_to h(server.name), :action => 'edit', :id => server.mask %></td>
+		<td><%=
+			if server.bm_subscription != nil
+				"Beyond Monitoring plan: " + link_to(h(server.bm_subscription.plan.name), "https://serverprotectors.com/bm/plans")
+			else
+				"No Beyond Monitoring plan"
+			end
+			%></td>
+		<td>
+			<%=
+			if server.bm_subscription != nil
+				h server.bm_subscription.bm_subscription.service_provider.titleize
+				case server.bm_subscription.bm_subscription.service_provider
+					when 'binary canary'
+						"Binary Canary (##{server.md_bc_server_id})"
+					when "unknown"
+						"Service provider not set"
+					else
+						server.bm_subscription.bm_subscription.service_provider.titleize
+				end
+			end
+			%>
+		</td>
+		<td>
+			<%=
+			if server.bm_subscription != nil
+				if server.bm_subscription.enabled
+					"Enabled"
+				else
+					link_to h("Disabled"), :controller => 'billing'
+				end
+			end
+			%>
+		</td>
+	</tr>
+	<% end %>
+</table>
+

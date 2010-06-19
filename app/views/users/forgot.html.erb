@@ -1,0 +1,17 @@
+<% content_for :title do %>Recover Password<% end %>
+
+<% form_tag :action => "forgot" do %>
+<table id="register">
+	<tr>
+		<td class="keyword">Email</td>
+	</tr>
+	
+	<tr>
+		<td><%= text_field_tag :email %></td>
+	</tr>
+
+	<tr>
+		<td class="buttons"><%= submit_tag "Recover Password" %></td>
+	</tr>
+</table>
+<% end %>

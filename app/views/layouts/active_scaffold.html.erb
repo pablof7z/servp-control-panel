@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" >
+	<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title><%= @title %> &mdash; Server Protectors</title>
+  <%= stylesheet_link_tag 'icon' %>
+<%= javascript_include_tag :defaults %>
+<%= stylesheet_link_tag 'custom' %>
+<%= active_scaffold_includes %>
+	</head>
+	<body>
+		<% if flash[:error] != nil %><div class="alert"><div class="typo-icon"><%= flash[:error]  %></div></div><%- end -%>
+		<% if flash[:warning] != nil %><div class="alert"><div class="typo-icon"><%= flash[:warning]  %></div></div><%- end -%>
+		<% if flash[:notice] != nil %><div class="approved"><div class="typo-icon"><%= flash[:notice] %></div></div><%- end -%>
+
+		<%= yield %>
+	</body>
+</html>
+

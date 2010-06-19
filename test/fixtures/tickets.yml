@@ -1,0 +1,33 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ticket_type: MyString
+  mask: MyString
+  subject: MyString
+  from: MyString
+  reply_to: MyString
+  cc: MyString
+  text: MyString
+  created_by_id: 1
+  status: MyString
+  assigned_to_id: MyString
+  account_id: 1
+  server_id: 1
+  priority: MyString
+  grabbed_on: 2010-04-27 13:40:14
+
+two:
+  ticket_type: MyString
+  mask: MyString
+  subject: MyString
+  from: MyString
+  reply_to: MyString
+  cc: MyString
+  text: MyString
+  created_by_id: 1
+  status: MyString
+  assigned_to_id: MyString
+  account_id: 1
+  server_id: 1
+  priority: MyString
+  grabbed_on: 2010-04-27 13:40:14

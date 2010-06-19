@@ -1,0 +1,25 @@
+<% content_for :title do %>Contact Details<% end %>
+
+<table id="list" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="4">Contact Details</th>
+		</tr>
+	</thead>
+	<%- @user.contact_details.each do |contact_detail| -%>
+	<tr class="<%= cycle('odd', 'even') %>">
+		<td><%= image_tag "#{h contact_detail.mechanism.downcase}.png" %></td>
+		<td><%= link_to h(contact_detail.information), :action => 'edit', :id => contact_detail.mask %></td>
+		<td><%= link_to image_tag('remove_item.png'), { :action => 'delete', :id => contact_detail.mask }, :confirm => 'Are you sure you want to delete this contact?' %></td>
+	</tr>
+	<%- end -%>
+	<tfoot>
+		<td class="buttons" colspan="4"><%= link_to "+ Add New", { :action => 'new' } %></td>
+	</tfoot>
+</table>
+
+<table>
+<tr>
+	
+</tr>
+</table>

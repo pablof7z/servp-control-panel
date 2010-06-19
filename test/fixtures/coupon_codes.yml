@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  code: MyString
+  not_before: 2010-06-17
+  not_after: 2010-06-17
+  max_total: 1
+  max_account: 1
+  validity: 1
+  affects: MyString
+  amount: 1
+  amount: 
+
+two:
+  code: MyString
+  not_before: 2010-06-17
+  not_after: 2010-06-17
+  max_total: 1
+  max_account: 1
+  validity: 1
+  affects: MyString
+  amount: 1
+  amount: 

@@ -1,0 +1,7 @@
+<% content_for :title do %>Dashboard<% end %>
+
+<h3>Newsfeed</h3>
+
+<% @newsfeed.each do |newsfeed_item| %>
+<%= h newsfeed_item.user.name %> <%= newsfeed_item.text %> <span style="color: #808080; padding-left: 20px;"><%= time_ago_in_words newsfeed_item.created_at %> ago.</span><br />
+<% end %>
