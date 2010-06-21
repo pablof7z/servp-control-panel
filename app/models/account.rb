@@ -26,7 +26,7 @@ class Account < ActiveRecord::Base
 		return @subs
 	end
 
-	def pending_subscriptions_prices
+	def pending_subscriptions_prices(coupons=true)
 		p = pending_subscriptions
 
 		monthly_fee = Money.new(0)
@@ -35,11 +35,13 @@ class Account < ActiveRecord::Base
 		p.each do |subscription|
 			monthly_fee += subscription.monthly_fee
 			coupondiv = 0
-			subscription.applied_coupon_subscriptions.each do |i|
-				applied_coupon = i.applied_coupon
-				coupondiv = (subscription.monthly_fee.to_f - (applied_coupon.coupon_code.apply_to subscription.monthly_fee.to_s.to_f).to_f)*-1
+			if coupons == true
+				subscription.applied_coupon_subscriptions.each do |i|
+					applied_coupon = i.applied_coupon
+					coupondiv = (subscription.monthly_fee.to_f - (applied_coupon.coupon_code.apply_to subscription.monthly_fee.to_s.to_f).to_f)*-1
+				end
+				monthly_fee += Money.new(coupondiv*100)
 			end
-			monthly_fee += Money.new(coupondiv*100)
 			setup_fee += subscription.setup_fee
 		end
 

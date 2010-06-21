@@ -65,15 +65,43 @@ class BillingController < ApplicationController
 			bp = BillingPaypal.new
 			bp.billing = @billing
 			amount, setup_fee = @billing.account.pending_subscriptions_prices
-			bp.amount = amount
+			normal_amount = @billing.account.pending_subscriptions_prices(false)[0]
+#			days_to_end_of_discount = nil
+			
+#			if amount != normal_amount
+#				@billing.account.subscriptions.each do |subscription|
+#					if subscription.applied_coupon_subscriptions.size > 0
+#						applied_coupon = AppliedCoupon.find_by_id(subscription.applied_coupon_subscriptions[0].applied_coupon_id)
+#						days_to_end_of_discount = applied_coupon.coupon_code.validity
+#					end
+#				end
+#			end
+			
+			bp.amount = normal_amount
 			bp.amount_currency = DEFAULT_CURRENCY
 			bp.save
 
 			days_to_end_of_month = (Date.first_day_of_next_month - Date.today).to_i
 			price_to_end_of_month = (bp.amount.to_s.to_f/Date.days_in_month) * days_to_end_of_month + setup_fee.to_s.to_f
 			price_to_end_of_month = price_to_end_of_month.round(2)
+			
+#			if days_to_end_of_discount != nil
+#				p1 = days_to_end_of_month
+#				p2 = days_to_end_of_discount
+#			
+#				a1 = price_to_end_of_month
+#				a2 = amount
+#				a3 = normal_amount
+#				data = "p1=#{p1}&p2=#{p2}&t1=D&t2=D&a1=#{a1}&a2=#{a2}&a3=#{a3}"
+#			else
+				p1 = days_to_end_of_month
+				
+				a1 = price_to_end_of_month
+				a3 = amount
+				data = "p1=#{p1}&t1=D&a1=#{a1}&a3=#{a3}"
+#			end
 
-			redirect_to "https://#{PAYPAL_URL}/cgi-bin/webscr?cmd=_xclick-subscriptions&business=#{PAYPAL_USER}&lc=US&item_name=Server+Protectors+-+Subscription:+%23#{@billing.mask}&item_number=#{@billing.mask}&no_note=1&no_shipping=1&a1=#{price_to_end_of_month}&p1=#{days_to_end_of_month}&t1=D&a3=#{bp.amount}&return=https://serverprotectors.com&cancel_return=https://serverprotectors.com&currency_code=#{DEFAULT_CURRENCY}&src=1&p3=1&t3=M&sra=1&bn=PP-SubscriptionsBF%3abtn_subscribeCC_LG.gif%3aNonHosted"
+			redirect_to "https://#{PAYPAL_URL}/cgi-bin/webscr?cmd=_xclick-subscriptions&business=#{PAYPAL_USER}&lc=US&item_name=Server+Protectors+-+Subscription:+%23#{@billing.mask}&item_number=#{@billing.mask}&no_note=1&no_shipping=1&#{data}&return=https://serverprotectors.com&cancel_return=https://serverprotectors.com&currency_code=#{DEFAULT_CURRENCY}&src=1&p3=1&t3=M&sra=1&bn=PP-SubscriptionsBF%3abtn_subscribeCC_LG.gif%3aNonHosted"
 		else
 			logger.error "Unknown billing method #{@billing.source}"
 			flash[:error] = "Unknown billing method selected."
