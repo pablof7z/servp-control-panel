@@ -34,6 +34,12 @@ class Account < ActiveRecord::Base
 
 		p.each do |subscription|
 			monthly_fee += subscription.monthly_fee
+			coupondiv = 0
+			subscription.applied_coupon_subscriptions.each do |i|
+				applied_coupon = i.applied_coupon
+				coupondiv = (subscription.monthly_fee.to_f - (applied_coupon.coupon_code.apply_to subscription.monthly_fee.to_s.to_f).to_f)*-1
+			end
+			monthly_fee += Money.new(coupondiv*100)
 			setup_fee += subscription.setup_fee
 		end
 

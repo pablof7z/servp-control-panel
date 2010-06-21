@@ -4,6 +4,29 @@ class BillingController < ApplicationController
 		@pending_subs = @account.pending_subscriptions
 		@pending_subs_prices_monthly_fee, @pending_subs_prices_setup_fees = @account.pending_subscriptions_prices
 		@active_subs = @account.active_subscriptions
+		
+		@pending_subs.each do |subscription|
+			subscription.link_coupon
+		end
+	end
+	
+	def coupon
+		if ! request.post?
+			@applied_coupon = AppliedCoupon.new
+		else
+			@applied_coupon = AppliedCoupon.new
+			@applied_coupon.account = @account
+			if @applied_coupon.set_code(params[:code]) != true
+				flash[:warning] = @applied_coupon.errors.full_messages[0]
+				@applied_coupon.errors.clear
+			elsif @applied_coupon.save
+				flash[:notice] = "Coupon #{@applied_coupon.coupon_code.code} applied - #{@applied_coupon.coupon_code.description}."
+			end
+		end
+		
+		if params[:ajax] = 'true'
+			redirect_to :controller => 'billing', :action => 'index', :id => 'coupon' and return
+		end
 	end
 
 	def remove_item

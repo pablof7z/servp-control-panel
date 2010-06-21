@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100614195217) do
+ActiveRecord::Schema.define(:version => 20100620005006) do
 
   create_table "account_metadatas", :force => true do |t|
     t.integer  "account_id", :null => false
@@ -25,6 +25,22 @@ ActiveRecord::Schema.define(:version => 20100614195217) do
     t.integer  "created_by_id",       :null => false
     t.string   "url"
     t.string   "invoice_information"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "applied_coupon_subscriptions", :force => true do |t|
+    t.integer  "applied_coupon_id", :null => false
+    t.integer  "subscription_id",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "applied_coupons", :force => true do |t|
+    t.integer  "coupon_code_id", :null => false
+    t.integer  "account_id",     :null => false
+    t.datetime "start",          :null => false
+    t.datetime "finish",         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -106,6 +122,21 @@ ActiveRecord::Schema.define(:version => 20100614195217) do
     t.string  "printable_name"
     t.string  "iso3"
     t.integer "numcode"
+  end
+
+  create_table "coupon_codes", :force => true do |t|
+    t.string   "code",                       :null => false
+    t.date     "not_before"
+    t.date     "not_after"
+    t.integer  "max_total",                  :null => false
+    t.integer  "max_account", :default => 1, :null => false
+    t.integer  "validity",                   :null => false
+    t.string   "affects",                    :null => false
+    t.integer  "amount",                     :null => false
+    t.string   "amount_unit",                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "description",                :null => false
   end
 
   create_table "invoice_items", :force => true do |t|

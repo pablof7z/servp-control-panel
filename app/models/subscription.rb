@@ -34,4 +34,23 @@ class Subscription < ActiveRecord::Base
 	def to_label
 		"#{plan.service.name}: #{server.name} - #{plan.name}"
 	end
+	
+	def link_coupon
+		server.account.applied_coupons.each do |applied_coupon|
+# TODO		
+#			if applied_coupon.coupon_code.affects == 'account'
+#			elsif applied_coupon.coupon_code.affects == 'subscriptions'
+#			end
+			next if applied_coupon.start > DateTime.now or applied_coupon.finish < DateTime.now
+			
+			# Check if this subscription already has this coupon
+			sub = AppliedCouponSubscription.find(:all, :conditions => { :subscription_id => self.id, :applied_coupon_id => applied_coupon.id })
+			next if sub.size > 0
+			
+			sub = AppliedCouponSubscription.new
+			sub.subscription = self
+			sub.applied_coupon = applied_coupon
+			sub.save
+		end
+	end
 end
