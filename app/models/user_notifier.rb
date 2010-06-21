@@ -3,7 +3,7 @@ class UserNotifier < ActionMailer::Base
 	
 	def new_user(user)
 		subject "Server Protectors Sign Up"
-		from	"Server Protectors"
+		from	"Server Protectors <support@serverprotectors.com>"
 		recipients user.email
 		bcc		"support@servp.com"
 		sent_on Time.now
@@ -12,7 +12,8 @@ class UserNotifier < ActionMailer::Base
 
 	def password_reset_instructions(user)
 		subject "Server Protectors Password Reset Instructions"
-		from    "Server Protectors"
+		from    "Server Protectors <support@serverprotectors.com>"
+		bcc		"support@servp.com"
 		recipients user.email
 		sent_on Time.now
 		body :edit_password_reset_url => edit_password_reset_url(user.perishable_token)
