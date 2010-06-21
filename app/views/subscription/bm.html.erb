@@ -1,6 +1,6 @@
 <% content_for :title do %>Create New Subscription<% end %>
 
-<% if @account.md_bc_api_key != nil %>
+<% if @account != nil and @account.md_bc_api_key != nil %>
 
 <blockquote class="bg">It seems your account was configured using Binary Canary as the service provider. You can go ahead to the
 <%= link_to "Binary Canary Link Tool", :controller => 'accounts', :action => 'bc' %> in order to import your servers from your
