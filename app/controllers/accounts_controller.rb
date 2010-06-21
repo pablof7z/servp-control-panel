@@ -159,7 +159,7 @@ class AccountsController < ApplicationController
 			server.created_by = @user
 			
 			while server_data.servername.size < 5 or
-			   Server.find(:all, :conditions => { :account_id => @account.id, :name => server.name }).count > 0
+			   Server.find(:all, :conditions => { :account_id => @account.id, :name => server.name }).size > 0
 				server.name = "Imported server #{rand(10000)}" 
 			end
 			
