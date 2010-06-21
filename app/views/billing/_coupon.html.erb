@@ -1,0 +1,17 @@
+<% form_for :applied_coupon, @applied_coupon, :url => { :action => 'coupon', :ajax => params[:ajax] } do |f| %>
+
+<% if flash[:warning] != nil %><div class="alert"><div class="typo-icon"><%= flash[:warning] %></div></div><%- end -%>
+
+<%= f.error_messages %>
+
+<table id="register">
+	<tr>
+		<td class="keyword"><%= label_tag :coupon_code %></td>
+		<td class="value"><%= text_field_tag :code, params[:code], :size => '10' %></td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= f.submit 'Apply' %> <%= button_to_function 'Cancel', 'hide_shadow();' %></td>
+	</tr>
+</table>
+<% end %>
+
