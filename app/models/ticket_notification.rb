@@ -15,3 +15,4 @@ class TicketNotification < ActionMailer::Base
 		body :ticket => ticket, :url => default_url_options[:host]
 	end
 end
+

@@ -27,6 +27,12 @@ class UsersController < ApplicationController
   end
 
   def profile
+  	@selected_user = @user
+  	
+  	if params[:id] != nil and @user.admin?
+  		@selected_user = User.find_by_mask(params[:id])
+  	end
+  	
   	if request.post?
 		if @user.update_attributes(params[:user])
 			flash[:notice] = "Successfully updated user."

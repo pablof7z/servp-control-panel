@@ -41,6 +41,15 @@ class Server < ActiveRecord::Base
 		
 		return nil
 	end
+	
+	def self.search(q)
+		p = "%#{q}%"
+		result = find(:all, :conditions => [ 'name like ? or private_notes like ? or public_notes like ? or description like ? or hostname like ? or mask like ?', p, p, p, p, p, p ])
+		
+		ServerMetadata.find(:all, :conditions => [ 'value like ?', p ]).each {|m| result << m.server }
+		
+		result
+	end
 
 	def method_missing(sym, *args, &block)
 		sym_str = sym.to_s

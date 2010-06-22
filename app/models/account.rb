@@ -55,6 +55,7 @@ class Account < ActiveRecord::Base
 	end
 	
 	def allowed_for?(user, action="*")
+		return true if user.admin?
 		permission = UserPermission.find(:first, :conditions => { :user_id => user.id, :account_id => self.id })
 		return false if permission == nil
 
@@ -68,6 +69,15 @@ class Account < ActiveRecord::Base
 			else
 				return false
 		end
+	end
+	
+	def self.search(q)
+		p = "%#{q}%"
+		result = find(:all, :conditions => [ 'name like ? or mask like ? or url like ? or invoice_information like ?', p, p, p, p ])
+		
+		AccountMetadata.find(:all, :conditions => [ 'value like ?', p ]).each {|m| result << m.account }
+		
+		result
 	end
 
 	def before_validation_on_create; create_mask end

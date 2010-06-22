@@ -1,6 +1,6 @@
 <% content_for :title do %>User Profile<% end %>
 
-<% form_for :user, @user do |f| %>
+<% form_for :user, @selected_user do |f| %>
 <table id="register">
 	<tr>
 		<td class="keyword"><%= f.label :name %></td>

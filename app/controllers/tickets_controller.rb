@@ -112,7 +112,7 @@ class TicketsController < ApplicationController
 	# Trying to use a ticket of some other account
 	if @ticket.account and @ticket.account.id != @account.id
 		session[:switch_url] = request.request_uri
-		redirect_to :controller => 'account', :action => 'switch', :id => @ticket.account.mask
+		redirect_to :controller => 'accounts', :action => 'switch', :id => @ticket.account.mask
 	end
 
 	rescue

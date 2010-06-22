@@ -12,6 +12,15 @@ class Billing < ActiveRecord::Base
 	validates_presence_of :account_id
 	validates_inclusion_of :source, :in => BILLING_SOURCES.map {|disp, val| val}, :message => 'is not valid'
 	validates_uniqueness_of :mask
+	
+	def self.search(q)
+		p = "%#{q}%"
+		result = find(:all, :conditions => [ 'mask like ?', p])
+		
+		BillingPaypal.find(:all, :conditions => [ 'subscription like ?', p ]).each {|m| result << m.billing }
+		
+		result
+	end
 
 	def before_validation_on_create; create_mask end
 

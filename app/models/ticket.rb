@@ -44,6 +44,15 @@ class Ticket < ActiveRecord::Base
 	def allowed_for?(user)
 		user.id == self.created_by_id or (self.account and self.account.allowed_for? user, :tickets)
 	end
+	
+	def self.search(q)
+		p = "%#{q}%"
+		result = find(:all, :conditions => [ 'mask like ? or subject like ? or text like ? or status like ?', p, p, p, p ])
+		
+		TicketUpdate.find(:all, :conditions => [ 'value like ? or comment like ?', p, p ]).each {|m| result << m.ticket }
+		
+		result
+	end
 
 	def after_create
 		NewsfeedItem.new(:user_id => created_by_id, :text => "created ticket <a href=\"#{CP_PREFIX}/tickets/view/#{self.mask}\">##{self.mask}</a>", :ticket_id => self[:id]).save

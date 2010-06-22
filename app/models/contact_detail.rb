@@ -12,6 +12,7 @@ class ContactDetail < ActiveRecord::Base
 	end
 	
 	def allowed_for?(user)
+		return true if user.admin?
 		user.id == self.user_id
 	end
 

@@ -1,0 +1,13 @@
+<%= link_to "##{result.mask}", :controller => 'billings', :action => 'view', :id => result.mask %><br />
+Account <%= h result.account.name %><br />
+Source <%= result.source %>
+<% if result.source == 'paypal' and result.paypal != nil and result.paypal.subscription != nil %>
+<%= "(#{result.paypal.subscription})" %>
+<% end %>
+<br />
+<% result.subscriptions.each do |subscription| %>
+	<li><%= "Subscription for server #{h subscription.server.name}, service #{subscription.plan.service.name} - #{number_to_currency subscription.monthly_fee.to_s}" %></li>
+<% end %>
+</td>
+<td><%= "#{result.enabled ? "Enabled" : "Disabled" }" %>
+

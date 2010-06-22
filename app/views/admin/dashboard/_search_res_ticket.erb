@@ -1,0 +1,2 @@
+<%= link_to "Ticket ##{result.mask} #{h result.subject}", :controller => '/tickets', :action => 'view', :id => result.mask %> (<%= "#{result.priority} priority)" %><br />
+Account <%= h result.account.name %><br />

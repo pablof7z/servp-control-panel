@@ -37,6 +37,15 @@ class User < ActiveRecord::Base
 	def open_tickets
 		Ticket.find(:all, :conditions => [ "created_by_id = ? AND status != 'Closed' AND account_id IS NULL", self.id ])
 	end
+	
+	def self.search(q)
+		p = "%#{q}%"
+		result = find(:all, :conditions => [ 'name like ? or country like ? or username like ? or email like ? or mask like ?', p, p, p, p, p ])
+		
+		ContactDetail.find(:all, :conditions => [ 'information like ?', p ]).each {|m| result << m.user }
+		
+		result
+	end
 
 	def after_create
 		contact_detail = ContactDetail.new

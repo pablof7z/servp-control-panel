@@ -1,0 +1,10 @@
+<table id="list" style="text-align: margin-left: auto; margin-right: auto;">
+	<% @results.each do |key, res| %>
+		<% res.each do |result| %>
+	<tr class="<%= cycle('odd', 'even') %>">
+		<td><%= key.to_s.titleize %></td>
+		<td><%= render :partial => "admin/dashboard/search_res_#{key.to_s}", :locals => { :result => result } %></td>
+	</tr>
+		<% end %>
+	<% end %>
+</table>

@@ -1,0 +1,34 @@
+<% content_for :title do%>Billing<% end %>
+
+<% form_for :billing, @billing, :url => { :action => 'update', :id => @billing.mask } do |f| %>
+<%= f.error_messages %>
+<table id="register">
+	<tr>
+		<td class="keyword">Billing mask</td>
+		<td class="value1"><%= @billing.mask %></td>
+	</tr>
+	<tr>
+		<td class="keyword">Account</td>
+		<td class="value1"><%= @billing.account.name %></td>
+	</tr>
+	<tr>
+		<td class="keyword">Source</td>
+		<td class="value1"><%= @billing.source.titleize %></td>
+	</tr>
+	<% if @billing.source == 'paypal' %>
+	<% fields_for @billing.paypal do |fa| %>
+	<tr>
+		<td class="keyword">Paypal subscription</td>
+		<td class="value1"><%= fa.text_field :subscription %></td>
+	</tr>
+	<% end %>
+	<% end %>
+	<tr>
+		<td class="keyword">Enabled</td>
+		<td class="value1"><%= f.check_box :enabled %></td>
+	</tr>
+	<tr>
+		<td class="buttons" colspan="2"><%= f.submit 'Save' %></td>
+	</tr>
+</table>
+<% end %>

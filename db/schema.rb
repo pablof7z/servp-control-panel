@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100620005006) do
+ActiveRecord::Schema.define(:version => 20100622173602) do
 
   create_table "account_metadatas", :force => true do |t|
     t.integer  "account_id", :null => false
@@ -55,11 +55,12 @@ ActiveRecord::Schema.define(:version => 20100620005006) do
   end
 
   create_table "billings", :force => true do |t|
-    t.string   "mask",       :null => false
-    t.string   "source",     :null => false
-    t.integer  "account_id", :null => false
+    t.string   "mask",                          :null => false
+    t.string   "source",                        :null => false
+    t.integer  "account_id",                    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "enabled",    :default => false
   end
 
   create_table "bm_plans", :force => true do |t|
@@ -239,7 +240,6 @@ ActiveRecord::Schema.define(:version => 20100620005006) do
   create_table "subscriptions", :force => true do |t|
     t.integer  "server_id",                               :null => false
     t.integer  "plan_id",                                 :null => false
-    t.boolean  "enabled",              :default => false
     t.integer  "billing_id"
     t.integer  "setup_fee_cents",                         :null => false
     t.integer  "monthly_fee_cents",                       :null => false
