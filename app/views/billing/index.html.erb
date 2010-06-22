@@ -118,7 +118,7 @@ function hide_shadow()
 				<div class="plan_name"><%= subscription.plan.name %></div>
 				<% if subscription.plan.service.name == SERVICE_BM %>
 				<div class="plan_additional_data">CATs: <%=
-				bm_subscription = subscription.bm_subscription
+				bm_subscription = BmSubscription.find_by_id(subscription.bm_subscription.id)
 				bm_subscription.bm_included_cats %></div>
 				<% end %>
 			</td>
