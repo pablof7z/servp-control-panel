@@ -52,6 +52,7 @@ class TicketsController < ApplicationController
 
 	if @ticket.save
 		flash[:notice] = "Ticket created successfully."
+		@ticket.deliver_ticket_notification!
 		redirect_to :action => 'view', :id => @ticket.mask
 	else
 		flash[:warning] = "Ticket not submited."

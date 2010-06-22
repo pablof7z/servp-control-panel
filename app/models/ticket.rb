@@ -17,6 +17,10 @@ class Ticket < ActiveRecord::Base
 	validates_inclusion_of :status, :in => TICKET_STATUS.map {|value| value}, :message => 'is not valid'
 	validates_inclusion_of :priority, :in => TICKET_PRIORITY.map {|value| value}, :message => 'is not valid'
 	validates_inclusion_of :ticket_type, :in => TICKET_TYPE.map {|value| value}, :message => 'is not valid'
+	
+	def deliver_ticket_notification!
+		TicketNotification.deliver_new_ticket(self)
+	end
 
 	def from_line
 		created_by != nil ? created_by.name : from
