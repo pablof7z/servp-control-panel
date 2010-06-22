@@ -41,12 +41,10 @@
 		</td>
 		<td>
 			<%=
-			if server.bm_subscription != nil
-				if server.bm_subscription.billing.enabled
-					"Enabled"
-				else
-					link_to h("Disabled"), :controller => 'billing'
-				end
+			if server.bm_subscription != nil and server.bm_subscription.billing != nil and server.bm_subscription.billing.enabled
+				"Enabled"
+			else
+				link_to h("Disabled"), :controller => 'billing'
 			end
 			%>
 		</td>
