@@ -47,7 +47,11 @@ class ServersController < ApplicationController
   end
 
   def update
-  	if @server.update_attributes(params[:server])
+	params[:server].each do |keyword, value|
+		logger.error "Doing @server.#{keyword}=#{value}"
+		@server.send "#{keyword}=", value
+	end
+	if @server.save
 		flash[:notice] = "Server updated successfully."
 		redirect_to :action => 'index'
 	else

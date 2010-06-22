@@ -155,7 +155,7 @@ class AccountsController < ApplicationController
 			server = Server.new
 			server.account = @account
 			server.name    = server_data.servername
-			server.hostname = server_data.hostname || server_data.servername
+			server.hostname = server_data.servername
 			server.created_by = @user
 			
 			while server_data.servername.size < 5 or

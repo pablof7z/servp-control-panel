@@ -1,7 +1,7 @@
 <% content_for :title do %>Admin Dashboard<% end %>
 
-<% form_remote_tag :url => { :action => 'search' }, :update => 'query_results' do |f| %>
-<table id="register">
+<% form_remote_tag :url => { :action => 'search' }, :update => 'query_results', :loading => visual_effect(:fade, 'query_results', :duration => 0.2), :complete => visual_effect(:appear, 'query_results', :duration => 0.2) do |f| %>
+<table id="register" cellspacing="0">
 	<tr>
 		<td>Search:</td>
 		<td><%= text_field_tag :q, params[:q] %></td>
@@ -13,8 +13,9 @@
 <div id="query_results" style="padding: 20px;">
 </div>
 
-<% if params[:q] %>
 <script>
-$('search_b').click();
+if ($('q').value != "") {
+	$('search_b').click();
+}
 </script>
-<% end %>
+

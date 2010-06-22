@@ -7,9 +7,10 @@
 <% form_for :server, @server, :url => { :action => action, :id => @server.mask } do |f| %>
 	<%= f.error_messages %>
 	
+	<div style="margin-left: auto; margin-right: auto; width: 600px;">
 	<h3>Basic Information</h3>
 
-	<table id="register" style="float: left;">
+	<table id="register" style="left: 0px; margin-left: 0px; width: 100%;">
 		<tr>
 			<td class="keyword"><%= f.label :name %></td>
 			<td><%= f.text_field :name %></td>
@@ -33,7 +34,7 @@
 		<tr valign="top">
 			<td class="keyword" style="vertical-align: top;"><%= f.label :hosting %></td>
 			<td>
-				<%= text_area_tag :hosting, @hosting, :rows => 5 %>
+				<%= f.text_area :md_hosting, :rows => 5 %>
 			</td>
 		</tr>
 		<tr>
@@ -42,19 +43,16 @@
 				Where is this server hosted?
 			</td>
 		</tr>
-		<tr>
-			<td class="buttons" colspan="2"><%= f.submit "Submit" %></td>
-		</tr>
 	</table>
+	</div>
 	
-	<div style="clear: both;"></div>
-	
+	<div style="margin-left: auto; margin-right: auto; width: 600px;">
 	<h3>IP Addresses</h3>
 	
-	<table id="register" style="float: left;">
+	<table id="register" style="left: 0px; margin-left: 0px; width: 100%;">
 		<tr valign="top">
 			<td class="keyword"><label>IP Addresses:</label></td>
-			<td><%= text_area_tag 'ip_addresses', @ip_addresses, :rows => 5 %></td>
+			<td><%= f.text_area :md_ip_addresses, :rows => 5 %></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -62,15 +60,15 @@
 		</tr>
 	</table>
 	
-	<%= observe_field :ip_addresses,
+	<%= observe_field 'server_md_ip_addresses',
 					  :url => { :action => 'validate_ip_addresses' },
 					  :with => "'server_id=#{@server[:mask]}&ip_addresses=' + encodeURIComponent(value)" %>
+	</div>
 	
-	<div style="clear: both;"></div>
-	
+	<div style="margin-left: auto; margin-right: auto; width: 600px;">	
 	<h3>Authentication</h3>
 	
-	<table id="register" style="float: left;">
+	<table id="register" style="left: 0px; margin-left: 0px; width: 100%;">
 		<tr>
 			<td>
 				<%= link_to_function 'FTP', 'set_apage("ftp")', :id => 'auth_link_ftp' %> |
@@ -86,19 +84,19 @@
 					<table>
 						<tr>
 							<td class="keyword">Hostname/IP:</td>
-							<td class="value"><%= text_field_tag 'ftp_hostname', @ftp[:hostname], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_ftp_hostname %>
 						</tr>
 						<tr>
 							<td class="keyword">Username:</td>
-							<td class="value"><%= text_field_tag 'ftp_username', @ftp[:username], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_ftp_username %>
 						</tr>
 						<tr>
 							<td class="keyword">Password:</td>
-							<td class="value"><%= password_field_tag 'ftp_password', @ftp[:password], :class => 'inputbox' %>
+							<td class="value"><%= f.password_field :md_ftp_password %>
 						</tr>
 						<tr>
 								<td class="keyword">Comments:</td>
-								<td class="value"><%= text_area_tag 'ftp_comments', @ftp[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+								<td class="value"><%= f.text_area :md_ftp_comments, :rows => 3, :cols => 30 %>
 						</tr>
 					</table>
 					
@@ -110,15 +108,15 @@
 					<table>
 						<tr>
 							<td class="keyword">Hostname/IP:</td>
-							<td class="value"><%= text_field_tag 'ssh_hostname', @ssh[:hostname], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_ssh_hostname %>
 						</tr>
 						<tr>
 							<td class="keyword">Username:</td>
-							<td class="value"><%= text_field_tag 'ssh_username', @ssh[:username], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_ssh_username %>
 						</tr>
 						<tr>
 							<td class="keyword">Password:</td>
-							<td class="value"><%= password_field_tag 'ssh_password', @ssh[:password], :class => 'inputbox' %>
+							<td class="value"><%= f.password_field :md_ssh_password %>
 						</tr>
 						<tr>
 							<td colspan="2" class="value_comment">
@@ -127,7 +125,7 @@
 						</tr>
 						<tr>
 								<td class="keyword">Comments:</td>
-								<td class="value"><%= text_area_tag 'ssh_comments', @ssh[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+								<td class="value"><%= f.text_area :md_ssh_comments, :rows => 3, :cols => 30 %>
 						</tr>
 					</table>
 					
@@ -141,19 +139,19 @@
 					<table>
 						<tr>
 							<td class="keyword">URL:</td>
-							<td class="value"><%= text_field_tag 'control_panel_url', @control_panel[:url], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_control_panel_url %>
 						</tr>
 						<tr>
 							<td class="keyword">Username:</td>
-							<td class="value"><%= text_field_tag 'control_panel_username', @control_panel[:username], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_control_panel_username %>
 						</tr>
 						<tr>
 							<td class="keyword">Password:</td>
-							<td class="value"><%= password_field_tag 'control_panel_password', @control_panel[:password], :class => 'inputbox' %>
+							<td class="value"><%= f.password_field :md_control_panel_password %>
 						</tr>
 						<tr>
 								<td class="keyword">Comments:</td>
-								<td class="value"><%= text_area_tag 'control_panel_comments', @control_panel[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+								<td class="value"><%= f.text_area :md_control_panel_comments, :rows => 3, :cols => 30 %>
 						</tr>
 					</table>
 					
@@ -165,19 +163,19 @@
 					<table>
 						<tr>
 							<td class="keyword">URL:</td>
-							<td class="value"><%= text_field_tag 'hosting_url', @hosting[:url], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_hosting_url %>
 						</tr>
 						<tr>
 							<td class="keyword">Username:</td>
-							<td class="value"><%= text_field_tag 'hosting_username', @hosting[:username], :class => 'inputbox' %>
+							<td class="value"><%= f.text_field :md_hosting_username %>
 						</tr>
 						<tr>
 							<td class="keyword">Password:</td>
-							<td class="value"><%= password_field_tag 'hosting_password', @hosting[:password], :class => 'inputbox' %>
+							<td class="value"><%= f.password_field :md_hosting_password %>
 						</tr>
 						<tr>
 								<td class="keyword">Comments:</td>
-								<td class="value"><%= text_area_tag 'hosting_comments', @hosting[:comments], :rows => 3, :cols => 30, :class => 'transparent_area' %>
+								<td class="value"><%= f.text_area :md_hosting_comments, :rows => 3, :cols => 30 %>
 						</tr>
 					</table>
 					
@@ -186,14 +184,14 @@
 					<center><%= button_to_function "Apply", 'set_apage("")' %></center>
 				</div>
 				<div id="auth_div_others" style="display: none;">
-					<p>Have some other form of authentication?</p>
+					<p>Have some other form of authentication we should know about?</p>
 					
-					<%= text_area_tag 'others_comments', @others[:comments], :rows => 5, :cols => 50, :class => 'transparent_area' %>
+					<%= f.text_area :md_others_comments, :rows => 5, :cols => 50 %>
 					
 					<table>
 						<tr>
 							<td class="keyword">Password:</td>
-							<td class="value"><%= password_field_tag 'others_password', @others[:password], :class => 'inputbox' %>
+							<td class="value"><%= f.password_field :md_others_password %>
 						</tr>
 						<tr>
 							<td class="value_comment" colspan="2">
@@ -209,19 +207,11 @@
 			</td>
 		</tr>
 	</table>
+	</div>
 	
-	<h3>Beyond Monitoring</h3>
-	
-	<table id="register" style="float: left;">
-		<tr valign="top">
-			<td class="keyword"><label>IP Addresses:</label></td>
-			<td><%= text_area_tag 'ip_addresses', @ip_addresses, :rows => 5 %></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><div id="ip_addresses_validation"></div></td>
-		</tr>
-	</table>
+	<div style="margin-left: auto; margin-right: auto; width: 600px;">
+	<div class="buttons" style="text-align: center; padding-top: 50px;"><%= f.submit "Submit" %></div>
+	</div>
 <% end %>
 
 <script>

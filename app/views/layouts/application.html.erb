@@ -91,6 +91,9 @@
 
 												<ul>
 													<li class="item90"><a href="<%= CP_PREFIX %>/"><span>Dashboard</span></a></li>
+													<% if current_user and current_user.admin? -%>
+													<li class="item90"><a href="<%= CP_PREFIX %>/admin/"><span>Admin</span></a></li>
+													<% end -%>
 													<li class="item90"><a href="<%= CP_PREFIX %>/logout"><span>Sign Out</span></a></li>
 												</ul>
 											</li>

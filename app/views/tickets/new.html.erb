@@ -1,3 +1,5 @@
+<% content_for :title do %>Create New Ticket<% end %>
+
 <% form_for :ticket, @ticket, :url => { :controller => 'tickets', :action => 'create' } do |f| %>
 
 <center><%= f.error_messages %></center>

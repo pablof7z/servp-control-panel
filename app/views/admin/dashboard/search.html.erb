@@ -1,10 +1,26 @@
-<table id="list" style="text-align: margin-left: auto; margin-right: auto;">
-	<% @results.each do |key, res| %>
-		<% res.each do |result| %>
-	<tr class="<%= cycle('odd', 'even') %>">
-		<td><%= key.to_s.titleize %></td>
-		<td><%= render :partial => "admin/dashboard/search_res_#{key.to_s}", :locals => { :result => result } %></td>
-	</tr>
+<table id="list" style="margin-left: auto; margin-right: auto;">
+	<thead>
+		<tr>
+			<th colspan="5">Search Results</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	<% if @results.size > 0 %>
+		<% @results.each do |key, res| %>
+			<% res.each do |result| %>
+				<tr class="<%= cycle('odd', 'even') %>">
+					<td><%= key.to_s.titleize %></td>
+					<td><%= render :partial => "admin/dashboard/search_res_#{key.to_s}", :locals => { :result => result } %></td>
+				</tr>
+			<% end %>
 		<% end %>
+	<% else %>
+		<tr class="<%= cycle('odd', 'even') %>">
+			<td style="text-align: center;">No results for that search.</td>
+		</tr>
 	<% end %>
+	</tbody>
 </table>
+
+

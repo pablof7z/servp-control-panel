@@ -1,8 +1,10 @@
+<% content_for :title do %>Tickets<% end %>
+
 <% @ticket_groups.each do |tickets| %>
 	<% if tickets[:tickets].size > 0 %>
 	<h3><%= tickets[:title] %></h3>
 
-	<table>
+	<table cellspacing="0">
 		<thead>
 			<tr>
 				<th>Ticket#</th>
