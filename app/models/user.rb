@@ -7,11 +7,21 @@ class User < ActiveRecord::Base
 	has_many :accounts, :through => :user_permissions
 
 	attr_protected :id, :mask
-
+	
+	validates_presence_of :name, :message => 'needs to be entered.'
 	validates_presence_of :mask
 	validates_uniqueness_of :mask
 
-	acts_as_authentic
+	acts_as_authentic do |c|
+		c.validates_uniqueness_of_email_field_options = {:if => "false"}
+		c.validates_length_of_login_field_options = {:if => "false", :minimum => 4}
+		c.validates_format_of_login_field_options = {:if => "false", :with => Authlogic::Regex.login}
+		c.validates_length_of_email_field_options = {:if => "false", :minimum => 4}
+		c.validates_confirmation_of_password_field_options = {:if => "password.blank? == false"}
+		c.validates_length_of_password_field_options = {:minimum => 6 }
+		c.validates_length_of_password_confirmation_field_options = {:if => "false", :minimum => 4 }
+#		c.validate_password_confirmation_field = false
+	end
 
 	def daemon?
 		self.role == 'daemon'
