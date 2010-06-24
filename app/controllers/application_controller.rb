@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 		session[:account] = @account.mask
 
 		if params[:controller].downcase.match(/admin/) != nil
-			if !@user.admin?
+			if !@user.admin? and params[:action].downcase.match(/remove_su/) == nil
 				flash[:warning] = "Resource unavailable, try again later or contact us if you think this is something we should be aware of."
 				redirect_to :controller => '/dashboard'
 			end

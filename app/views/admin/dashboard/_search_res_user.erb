@@ -1,2 +1,2 @@
 <%= link_to h(result.name), :controller => '/users', :action => 'profile', :id => result.mask %>
-#<%= result.mask %>
+<%= link_to "##{result.mask}", :action => "su", :id => result.mask %>

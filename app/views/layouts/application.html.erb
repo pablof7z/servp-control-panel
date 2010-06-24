@@ -94,6 +94,9 @@
 													<% if current_user and current_user.admin? -%>
 													<li class="item90"><a href="<%= CP_PREFIX %>/admin/"><span>Admin</span></a></li>
 													<% end -%>
+													<% if session[:su_user] != nil %>
+													<li class="item90"><a href="<%= CP_PREFIX %>/admin/dashboard/remove_su"><span>Back to Admin</span></a></li>
+													<% end %>
 													<li class="item90"><a href="<%= CP_PREFIX %>/logout"><span>Sign Out</span></a></li>
 												</ul>
 											</li>
