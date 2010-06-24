@@ -13,6 +13,7 @@ class SubscriptionController < ApplicationController
   	
   	@server = Server.new(params[:server])
 	@server.account_id = 0
+	@server.created_by_id = @user.id
 	
 	if @plan
 		@bm_subscription = BmSubscription.new
