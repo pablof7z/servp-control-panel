@@ -120,7 +120,7 @@
 						</tr>
 						<tr>
 							<td colspan="2" class="value_comment">
-								Prefer key-based authentication? So do we! <%= link_to 'Click here for information on setting it up' %>
+								Prefer key-based authentication? So do we! <%= link_to_function 'Click here for information on setting it up', 'show_sshkey();' %>
 							</td>
 						</tr>
 						<tr>
@@ -214,6 +214,13 @@
 	</div>
 <% end %>
 
+<div id="sshkeydiv" style="position: absolute; min-width: 600px; margin-left: -320px; z-index: 1000; top: -100px; left: 50%; right: 50%; background-color: white; border: solid #cccccc 1px; -moz-border-radius: 30px; -webkit-border-radius: 30px; border-radius: 30px; padding: 20px; display: none;">
+<p>This is our SSH key, you can install it in <tt>$HOME/.ssh/authorized_keys</tt>:</p>
+<pre>
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAp5vHutJaVoJ5MF8Wq+Jrij3AhXg4BMZMiYqbXZUk3ib94THU4DlhQmNeBp2DmliQmtsjPuPqNgEX7xSjbeurfZHPvqPv0a5HLtG6TYpYVoarhpNZJkVT3wLBnC7L+HxNm+35MvGLLDr+aA0DSlNScwECrIS6Z1y/WTrlF5FHFl9BZoxQPqDilNJVaRx1YZCRSkdpkjR3b5ip7qYRFJYA9X+2E2fz9bT8MxFsz5GIUPX5Fcc/i6eCgWrVob7lInjqBrhJ9sKkkR9gW7UhaOrDwgJZM22MIh9k8lM7UEx/tgxfgJytWVfUhd4KxjCCYFR34nCjJpzrfVdYh9YGi42tXw== serverprotectors
+</pre>
+<div>
+
 <script>
 var auth_sl = "";
 
@@ -241,5 +248,12 @@ function set_apage(name)
 	auth_sl = name;
 
 }
+
+function show_sshkey()
+{
+	<%= visual_effect :appear, :sskkeydiv %>
+	<%= visual_effect :appear, :shadow %>
+}
+
 </script>
 
