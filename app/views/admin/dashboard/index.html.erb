@@ -7,6 +7,13 @@
 		<td><%= text_field_tag :q, params[:q] %></td>
 		<td class="buttons"><%= submit_tag :Search, :id => 'search_b' %></td>
 	</tr>
+	<tr>
+		<td colspan="2">
+			<% %w(accounts billings servers tickets users).each do |t| %>
+			<%= link_to_function t.titleize, "perform_search(':#{t}');" %> |
+			<% end %>
+		</td>
+	</tr>
 </table>
 <% end %>
 
@@ -17,5 +24,11 @@
 if ($('q').value != "") {
 	$('search_b').click();
 }
+
+function perform_search(value) {
+	$('q').value = value;
+	$('search_b').click();
+}
+
 </script>
 

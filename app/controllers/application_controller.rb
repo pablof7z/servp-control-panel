@@ -16,57 +16,57 @@ class ApplicationController < ActionController::Base
 
   def newsfeed_add(text, opts)
   	newsfeed = NewsfeedItem.new(opts)
-	newsfeed.text = text
-	newsfeed.user = @user
-	newsfeed.save
+   newsfeed.text = text
+   newsfeed.user = @user
+   newsfeed.save
+ end
+
+ protected
+
+ def accept_login
+  @user = current_user
+  @account = Account.find_by_mask(session[:account]) || @user.accounts[0]
+  if ! @account.allowed_for? current_user
+   flash[:warning] = "Resource unavailable, try again later or contact us if you think this is something we should be aware of."
+   @account = @user.accounts[0]
+ end
+ session[:account] = @account.mask
+
+ if params[:controller].downcase.match(/admin/) != nil
+   if !@user.admin? and params[:action].downcase.match(/remove_su/) == nil
+    flash[:warning] = "Resource unavailable, try again later or contact us if you think this is something we should be aware of."
+    redirect_to :controller => '/dashboard'
   end
+end
 
-  protected
+rescue
+ true
+end
 
-	def accept_login
-		@user = current_user
-		@account = Account.find_by_mask(session[:account]) || @user.accounts[0]
-		if ! @account.allowed_for? current_user
-			flash[:warning] = "Resource unavailable, try again later or contact us if you think this is something we should be aware of."
-			@account = @user.accounts[0]
-		end
-		session[:account] = @account.mask
+def require_login
+ if ! @user
+  session[:intended_url] = request.request_uri
+  path = cookies[:user] != nil ? login_path : register_path
+  redirect_to path and return
+end
+end
 
-		if params[:controller].downcase.match(/admin/) != nil
-			if !@user.admin? and params[:action].downcase.match(/remove_su/) == nil
-				flash[:warning] = "Resource unavailable, try again later or contact us if you think this is something we should be aware of."
-				redirect_to :controller => '/dashboard'
-			end
-		end
-		
-		rescue
-			true
-	end
+def get_open_tickets
+ if current_user != nil
+  @my_open_tickets = @user.open_tickets if @user
+  @account_open_tickets = @account.open_tickets if @user
+end
+end
 
-  def require_login
-  	if ! @user
-		session[:intended_url] = request.request_uri
-		path = cookies[:user] != nil ? login_path : register_path
-		redirect_to path and return
-	end
-  end
+private
 
-  def get_open_tickets
-  	if current_user != nil
-	  	@my_open_tickets = @user.open_tickets if @user
-		@account_open_tickets = @account.open_tickets if @user
-	end
-  end
+def current_user_session
+ return @current_user_session if defined?(@current_user_session)
+ @current_user_session = UserSession.find
+end
 
-  private
-
-  def current_user_session
-  	return @current_user_session if defined?(@current_user_session)
-	@current_user_session = UserSession.find
-  end
-
-  def current_user
-  	return @current_user if defined?(@current_user)
-	@current_user = current_user_session && current_user_session.record
-  end
+def current_user
+ return @current_user if defined?(@current_user)
+ @current_user = current_user_session && current_user_session.record
+end
 end

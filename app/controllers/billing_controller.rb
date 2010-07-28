@@ -4,12 +4,12 @@ class BillingController < ApplicationController
 		@pending_subs = @account.pending_subscriptions
 		@pending_subs_prices_monthly_fee, @pending_subs_prices_setup_fees = @account.pending_subscriptions_prices
 		@active_subs = @account.active_subscriptions
-		
+
 		@pending_subs.each do |subscription|
 			subscription.link_coupon
 		end
 	end
-	
+
 	def coupon
 		if ! request.post?
 			@applied_coupon = AppliedCoupon.new
@@ -23,7 +23,7 @@ class BillingController < ApplicationController
 				flash[:notice] = "Coupon #{@applied_coupon.coupon_code.code} applied - #{@applied_coupon.coupon_code.description}."
 			end
 		end
-		
+
 		if params[:ajax] = 'true'
 			redirect_to :controller => 'billing', :action => 'index', :id => 'coupon' and return
 		end
@@ -31,9 +31,9 @@ class BillingController < ApplicationController
 
 	def remove_item
 		subscription = Subscription.find(params[:id])
-	
+
 		if subscription == nil or
-		   subscription.server.allowed_for?(@user, :billing) == false
+			subscription.server.allowed_for?(@user, :billing) == false
 			flash[:warning] = 'Unable to remove subscription'
 		else
 			subscription.destroy
@@ -57,7 +57,7 @@ class BillingController < ApplicationController
 		end
 
 		render :action => 'index' and return if ! @billing.save
-		
+
 		ps.each {|s| s.billing = @billing; s.save}
 
 		#if @billing.source == 'paypal'
@@ -67,7 +67,7 @@ class BillingController < ApplicationController
 			amount, setup_fee = @billing.account.pending_subscriptions_prices
 			normal_amount = @billing.account.pending_subscriptions_prices(false)[0]
 #			days_to_end_of_discount = nil
-			
+
 #			if amount != normal_amount
 #				@billing.account.subscriptions.each do |subscription|
 #					if subscription.applied_coupon_subscriptions.size > 0
@@ -76,37 +76,37 @@ class BillingController < ApplicationController
 #					end
 #				end
 #			end
-			
-			bp.amount = normal_amount
-			bp.amount_currency = DEFAULT_CURRENCY
-			bp.save
 
-			days_to_end_of_month = (Date.first_day_of_next_month - Date.today).to_i
-			price_to_end_of_month = (bp.amount.to_s.to_f/Date.days_in_month) * days_to_end_of_month + setup_fee.to_s.to_f
-			price_to_end_of_month = price_to_end_of_month.round(2)
-			
+bp.amount = normal_amount
+bp.amount_currency = DEFAULT_CURRENCY
+bp.save
+
+days_to_end_of_month = (Date.first_day_of_next_month - Date.today).to_i
+price_to_end_of_month = (bp.amount.to_s.to_f/Date.days_in_month) * days_to_end_of_month + setup_fee.to_s.to_f
+price_to_end_of_month = price_to_end_of_month.round(2)
+
 #			if days_to_end_of_discount != nil
 #				p1 = days_to_end_of_month
 #				p2 = days_to_end_of_discount
-#			
+#
 #				a1 = price_to_end_of_month
 #				a2 = amount
 #				a3 = normal_amount
 #				data = "p1=#{p1}&p2=#{p2}&t1=D&t2=D&a1=#{a1}&a2=#{a2}&a3=#{a3}"
 #			else
-				p1 = days_to_end_of_month
-				
-				a1 = price_to_end_of_month
-				a3 = amount
-				data = "p1=#{p1}&t1=D&a1=#{a1}&a3=#{a3}"
+p1 = days_to_end_of_month
+
+a1 = price_to_end_of_month
+a3 = amount
+data = "p1=#{p1}&t1=D&a1=#{a1}&a3=#{a3}"
 #			end
 
-			redirect_to "https://#{PAYPAL_URL}/cgi-bin/webscr?cmd=_xclick-subscriptions&business=#{PAYPAL_USER}&lc=US&item_name=Server+Protectors+-+Subscription:+%23#{@billing.mask}&item_number=#{@billing.mask}&no_note=1&no_shipping=1&#{data}&return=https://serverprotectors.com&cancel_return=https://serverprotectors.com&currency_code=#{DEFAULT_CURRENCY}&src=1&p3=1&t3=M&sra=1&bn=PP-SubscriptionsBF%3abtn_subscribeCC_LG.gif%3aNonHosted"
-		else
-			logger.error "Unknown billing method #{@billing.source}"
-			flash[:error] = "Unknown billing method selected."
-			@billing.destroy
-			render :action => 'index' and return
-		end
-	end
+redirect_to "https://#{PAYPAL_URL}/cgi-bin/webscr?cmd=_xclick-subscriptions&business=#{PAYPAL_USER}&lc=US&item_name=Server+Protectors+-+Subscription:+%23#{@billing.mask}&item_number=#{@billing.mask}&no_note=1&no_shipping=1&#{data}&return=https://serverprotectors.com&cancel_return=https://serverprotectors.com&currency_code=#{DEFAULT_CURRENCY}&src=1&p3=1&t3=M&sra=1&bn=PP-SubscriptionsBF%3abtn_subscribeCC_LG.gif%3aNonHosted"
+else
+	logger.error "Unknown billing method #{@billing.source}"
+	flash[:error] = "Unknown billing method selected."
+	@billing.destroy
+	render :action => 'index' and return
+end
+end
 end
