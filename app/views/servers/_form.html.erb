@@ -214,10 +214,14 @@
 	</div>
 <% end %>
 
-<div id="sshkeydiv" style="position: absolute; min-width: 600px; margin-left: -320px; z-index: 1000; top: -100px; left: 50%; right: 50%; background-color: white; border: solid #cccccc 1px; -moz-border-radius: 30px; -webkit-border-radius: 30px; border-radius: 30px; padding: 20px; display: none;">
+<div id="sshkeydiv" style="position: fixed; min-width: 600px; margin-left: -320px; z-index: 1000; top: 25%; left: 50%; right: 50%; background-color: white; border: solid #cccccc 1px; -moz-border-radius: 30px; -webkit-border-radius: 30px; border-radius: 30px; padding: 20px; display: none;">
 <p>This is our SSH key, you can install it in <tt>$HOME/.ssh/authorized_keys</tt>:</p>
-<pre>
-ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAp5vHutJaVoJ5MF8Wq+Jrij3AhXg4BMZMiYqbXZUk3ib94THU4DlhQmNeBp2DmliQmtsjPuPqNgEX7xSjbeurfZHPvqPv0a5HLtG6TYpYVoarhpNZJkVT3wLBnC7L+HxNm+35MvGLLDr+aA0DSlNScwECrIS6Z1y/WTrlF5FHFl9BZoxQPqDilNJVaRx1YZCRSkdpkjR3b5ip7qYRFJYA9X+2E2fz9bT8MxFsz5GIUPX5Fcc/i6eCgWrVob7lInjqBrhJ9sKkkR9gW7UhaOrDwgJZM22MIh9k8lM7UEx/tgxfgJytWVfUhd4KxjCCYFR34nCjJpzrfVdYh9YGi42tXw== serverprotectors
+<pre style="word-wrap: break-word;">
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAp5vHutJaVoJ5MF8Wq+Jrij3AhXg4BMZMiYqbXZUk3ib94T
+HU4DlhQmNeBp2DmliQmtsjPuPqNgEX7xSjbeurfZHPvqPv0a5HLtG6TYpYVoarhpNZJkVT3wLBnC7L+HxN
+m+35MvGLLDr+aA0DSlNScwECrIS6Z1y/WTrlF5FHFl9BZoxQPqDilNJVaRx1YZCRSkdpkjR3b5ip7qYRFJ
+YA9X+2E2fz9bT8MxFsz5GIUPX5Fcc/i6eCgWrVob7lInjqBrhJ9sKkkR9gW7UhaOrDwgJZM22MIh9k8lM7
+UEx/tgxfgJytWVfUhd4KxjCCYFR34nCjJpzrfVdYh9YGi42tXw== serverprotectors
 </pre>
 <div>
 
@@ -251,8 +255,14 @@ function set_apage(name)
 
 function show_sshkey()
 {
-	<%= visual_effect :appear, :sskkeydiv %>
+	<%= visual_effect :appear, :sshkeydiv %>
 	<%= visual_effect :appear, :shadow %>
+}
+
+function hide_shadow()
+{
+	<%= visual_effect('fade', 'sshkeydiv') %>
+	<%= visual_effect('fade', 'shadow') %>
 }
 
 </script>
